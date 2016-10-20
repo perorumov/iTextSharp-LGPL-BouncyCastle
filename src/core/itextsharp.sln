@@ -1,25 +1,19 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "itextsharp", "itextsharp.csproj", "{84C4FDD9-3ED7-453B-B9DA-B3ED52CB071C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug-net20|Any CPU = Debug-net20|Any CPU
-		Debug-net40-client|Any CPU = Debug-net40-client|Any CPU
-		Release-net20|Any CPU = Release-net20|Any CPU
-		Release-net40-client|Any CPU = Release-net40-client|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{84C4FDD9-3ED7-453B-B9DA-B3ED52CB071C}.Debug-net20|Any CPU.ActiveCfg = Debug-net20|Any CPU
-		{84C4FDD9-3ED7-453B-B9DA-B3ED52CB071C}.Debug-net20|Any CPU.Build.0 = Debug-net20|Any CPU
-		{84C4FDD9-3ED7-453B-B9DA-B3ED52CB071C}.Debug-net40-client|Any CPU.ActiveCfg = Debug-net40-client|Any CPU
-		{84C4FDD9-3ED7-453B-B9DA-B3ED52CB071C}.Debug-net40-client|Any CPU.Build.0 = Debug-net40-client|Any CPU
-		{84C4FDD9-3ED7-453B-B9DA-B3ED52CB071C}.Release-net20|Any CPU.ActiveCfg = Release-net20|Any CPU
-		{84C4FDD9-3ED7-453B-B9DA-B3ED52CB071C}.Release-net20|Any CPU.Build.0 = Release-net20|Any CPU
-		{84C4FDD9-3ED7-453B-B9DA-B3ED52CB071C}.Release-net40-client|Any CPU.ActiveCfg = Release-net40-client|Any CPU
-		{84C4FDD9-3ED7-453B-B9DA-B3ED52CB071C}.Release-net40-client|Any CPU.Build.0 = Release-net40-client|Any CPU
+		{84C4FDD9-3ED7-453B-B9DA-B3ED52CB071C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84C4FDD9-3ED7-453B-B9DA-B3ED52CB071C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84C4FDD9-3ED7-453B-B9DA-B3ED52CB071C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84C4FDD9-3ED7-453B-B9DA-B3ED52CB071C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
