@@ -4,7 +4,7 @@
     <id>iTextSharp-LGPL-BouncyCastle-1.8</id>
     <version>4.1.7</version>
 	<title>iTextSharp (LGPL / MPL), Bouncy Castle-1.8</title>
-    <authors>Bruno Lowagie, Paulo Soares</authors>
+    <authors>Bruno Lowagie, Paulo Soares, Serafin Roberto</authors>
     <owners>Serafin Roberto</owners>
     <projectUrl>https://github.com/Sbaia/iTextSharp-LGPL-BouncyCastle</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -13,11 +13,10 @@
     <copyright>Copyright 2016</copyright>
     <tags>pdf itext itextsharp</tags>
     <dependencies>
-      <dependency id="BouncyCastle" version="1.7.0" />
+      <dependency id="BouncyCastle" version="1.8.1" />
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\net20\itextsharp.dll" target="lib\net20" />
-	<file src="bin\Release\net40-client\itextsharp.dll" target="lib\net40-client" />
+	  <file src="bin\Release\itextsharp.dll" target="lib" />
   </files>
 </package>

@@ -1455,6 +1455,7 @@
     <EmbeddedResource Include="iTextSharp\text\pdf\fonts\Times-Italic.afm" />
     <EmbeddedResource Include="iTextSharp\text\pdf\fonts\Times-Roman.afm" />
     <EmbeddedResource Include="iTextSharp\text\pdf\fonts\ZapfDingbats.afm" />
+    <None Include="itextsharp.nuspec" />
     <None Include="itextsharp.snk" />
     <None Include="packages.config" />
   </ItemGroup>
