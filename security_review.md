@@ -23,3 +23,27 @@ The core identifies itself as `iTextSharp 4.1.6-NS_Modified` (`src/core/iTextSha
 - The review covered source under `src/core`; it did not test runtime behavior, inspect packaged binaries, or assess downstream application configuration.
 - Bouncy Castle CVEs and all other dependency advisories are out of scope. The project references Bouncy Castle packages, so dependency versions should be assessed separately.
 - A Snyk advisory for insufficient signature validation was noted, but it has no CVE ID and was not independently adjudicated in this CVE-only review.
+
+---
+
+# iTextSharp 4.1.6 CVE Review — Follow-up
+
+**Review scope:** iTextSharp 4.1.6 source in this repository. BouncyCastle code and dependencies excluded. This is a source review and does not assess separately deployed binaries or application-specific integrations.
+
+## Findings
+
+No substantiated CVE-related vulnerabilities were found in the reviewed iTextSharp source.
+
+| # | Severity | File | Lines | Vulnerability | Confidence |
+|---|----------|------|-------|---------------|------------|
+| — | — | — | — | No substantiated CVE findings. | — |
+
+## CVEs and paths reviewed
+
+- **[CVE-2017-9096](https://nvd.nist.gov/vuln/detail/CVE-2017-9096) (XXE):** The known XML parsing path appears absent from this fork. XFDF parsing is commented out in `src/core/iTextSharp/text/pdf/XfdfReader.cs` (lines 58–95), PDF metadata is returned as bytes rather than parsed as XML in `src/core/iTextSharp/text/pdf/PdfReader.cs` (lines 2227–2236), and XFA parsing is absent. This is removal of the parser path, not evidence that the old parser was hardened.
+- **[CVE-2021-43113](https://nvd.nist.gov/vuln/detail/CVE-2021-43113) (Ghostscript command injection):** The vulnerable `CompareTool`/`GhostscriptHelper` path is absent from the reviewed core.
+- **[CVE-2017-20151](https://nvd.nist.gov/vuln/detail/CVE-2017-20151) (iText RUPS XXE):** The reported component is Java RUPS, not this .NET iTextSharp library; RUPS and its `XfaFile` component are absent.
+- **[CVE-2022-24196](https://nvd.nist.gov/vuln/detail/CVE-2022-24196), [CVE-2022-24197](https://nvd.nist.gov/vuln/detail/CVE-2022-24197), and [CVE-2022-24198](https://nvd.nist.gov/vuln/detail/CVE-2022-24198):** These concern later iText 7 implementations; no affected iTextSharp 4.1.6 path was established. CVE-2022-24198 was additionally outside the requested BouncyCastle-excluded scope.
+- **[CVE-2023-6298](https://nvd.nist.gov/vuln/detail/CVE-2023-6298) and [CVE-2023-6299](https://nvd.nist.gov/vuln/detail/CVE-2023-6299):** These concern iText 8.x, not the 4.1.6-derived implementation reviewed here.
+
+The review also checked the [NVD iText CVE search](https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch=iText&resultsPerPage=50). CVE-2018-20170 is an OpenStack Keystone issue, and CVE-2019-11797 is rejected; neither substantiates an iTextSharp finding.
