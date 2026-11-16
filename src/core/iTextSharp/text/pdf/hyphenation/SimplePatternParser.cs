@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections;
 using System.util;
 using iTextSharp.text.xml.simpleparser;
-using iTextSharp.text.html;
+
 /*
  * Copyright 2005 by Paulo Soares.
  *

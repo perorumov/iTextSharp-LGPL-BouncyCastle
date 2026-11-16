@@ -533,8 +533,71 @@ namespace iTextSharp.text.pdf {
         * @throws IOException on error
         * @throws DocumentException on error
         * @return the pushbutton field
-        */    
-        public PdfFormField Field {
+        */
+#if NET10_0
+        public PdfFormField Field
+        {
+            get
+            {
+                PdfFormField formField = PdfFormField.CreatePushButton(writer);
+                formField.SetWidget(box, PdfAnnotation.HIGHLIGHT_INVERT);
+                if (fieldName != null)
+                {
+                    formField.FieldName = fieldName;
+                    if ((options & READ_ONLY) != 0)
+                        formField.SetFieldFlags(PdfFormField.FF_READ_ONLY);
+                    if ((options & REQUIRED) != 0)
+                        formField.SetFieldFlags(PdfFormField.FF_REQUIRED);
+                }
+                if (text != null)
+                    formField.MKNormalCaption = text;
+                if (rotation != 0)
+                    formField.MKRotation = rotation;
+                formField.BorderStyle = new PdfBorderDictionary(borderWidth, borderStyle, new PdfDashPattern(3));
+                PdfAppearance tpa = GetAppearance();
+                formField.SetAppearance(PdfAnnotation.APPEARANCE_NORMAL, tpa);
+                PdfAppearance da = (PdfAppearance)tpa.Duplicate;
+                da.SetFontAndSize(RealFont, fontSize);
+                if (textColor == null)
+                    da.SetGrayFill(0);
+                else
+                    da.SetColorFill(textColor);
+                formField.DefaultAppearanceString = da;
+                if (borderColor != null)
+                    formField.MKBorderColor = borderColor;
+                if (backgroundColor != null)
+                    formField.MKBackgroundColor = backgroundColor;
+                switch (visibility)
+                {
+                    case HIDDEN:
+                        formField.Flags = PdfAnnotation.FLAGS_PRINT | PdfAnnotation.FLAGS_HIDDEN;
+                        break;
+                    case VISIBLE_BUT_DOES_NOT_PRINT:
+                        break;
+                    case HIDDEN_BUT_PRINTABLE:
+                        formField.Flags = PdfAnnotation.FLAGS_PRINT | PdfAnnotation.FLAGS_NOVIEW;
+                        break;
+                    default:
+                        formField.Flags = PdfAnnotation.FLAGS_PRINT;
+                        break;
+                }
+                if (tp != null)
+                    formField.MKNormalIcon = tp;
+                formField.MKTextPosition = layout - 1;
+                PdfName scale = PdfName.A;
+                if (scaleIcon == SCALE_ICON_IS_TOO_BIG)
+                    scale = PdfName.B;
+                else if (scaleIcon == SCALE_ICON_IS_TOO_SMALL)
+                    scale = PdfName.S;
+                else if (scaleIcon == SCALE_ICON_NEVER)
+                    scale = PdfName.N;
+                formField.SetMKIconFit(scale, proportionalIcon ? PdfName.P : PdfName.A, iconHorizontalAdjustment,
+                    iconVerticalAdjustment, iconFitToBounds);
+                return formField;
+            }
+        }
+#else
+public PdfFormField Field {
             get {
                 PdfFormField field = PdfFormField.CreatePushButton(writer);
                 field.SetWidget(box, PdfAnnotation.HIGHLIGHT_INVERT);
@@ -591,7 +654,9 @@ namespace iTextSharp.text.pdf {
                 return field;
             }
         }
-        
+#endif
+
+
         /**
         * If <CODE>true</CODE> the icon will be scaled to fit fully within the bounds of the annotation,
         * if <CODE>false</CODE> the border width will be taken into account. The default

@@ -67,7 +67,7 @@ namespace iTextSharp.text.pdf {
         public const int DA_SIZE = 1;
         public const int DA_COLOR = 2;
         private Hashtable extensionFonts = new Hashtable();
-        private XfaForm xfa;
+        //private XfaForm xfa;
         /**
         * A field type invalid or not found.
         */    
@@ -115,7 +115,7 @@ namespace iTextSharp.text.pdf {
         internal AcroFields(PdfReader reader, PdfWriter writer) {
             this.reader = reader;
             this.writer = writer;
-            xfa = new XfaForm(reader);
+            //xfa = new XfaForm(reader);
             if (writer is PdfStamperImp) {
                 append = ((PdfStamperImp)writer).append;
             }
@@ -753,13 +753,13 @@ namespace iTextSharp.text.pdf {
         * @return the field value
         */    
         public String GetField(String name) {
-            if (xfa.XfaPresent) {
-                name = xfa.FindFieldName(name, this);
-                if (name == null)
-                    return null;
-                name = XfaForm.Xml2Som.GetShortName(name);
-                return XfaForm.GetNodeText(xfa.FindDatasetsNode(name));
-            }
+            //if (xfa.XfaPresent) {
+            //    name = xfa.FindFieldName(name, this);
+            //    if (name == null)
+            //        return null;
+            //    name = XfaForm.Xml2Som.GetShortName(name);
+            //    return XfaForm.GetNodeText(xfa.FindDatasetsNode(name));
+            //}
             Item item = (Item)fields[name];
             if (item == null)
                 return null;
@@ -1131,13 +1131,13 @@ namespace iTextSharp.text.pdf {
         * @throws java.io.IOException on error
         * @throws com.lowagie.text.DocumentException o error
         */
-        public void MergeXfaData(XmlNode n) {
-            XfaForm.Xml2SomDatasets data = new XfaForm.Xml2SomDatasets(n);
-            foreach (String name in data.Order) {
-                String text = XfaForm.GetNodeText((XmlNode)data.Name2Node[name]);
-                SetField(name, text);
-            }
-        }
+        //public void MergeXfaData(XmlNode n) {
+        //    XfaForm.Xml2SomDatasets data = new XfaForm.Xml2SomDatasets(n);
+        //    foreach (String name in data.Order) {
+        //        String text = XfaForm.GetNodeText((XmlNode)data.Name2Node[name]);
+        //        SetField(name, text);
+        //    }
+        //}
 
         /** Sets the fields by FDF merging.
         * @param fdf the FDF form
@@ -1219,17 +1219,17 @@ namespace iTextSharp.text.pdf {
         public bool SetField(String name, String value, String display) {
             if (writer == null)
                 throw new DocumentException("This AcroFields instance is read-only.");
-            if (xfa.XfaPresent) {
-                name = xfa.FindFieldName(name, this);
-                if (name == null)
-                    return false;
-                String shortName = XfaForm.Xml2Som.GetShortName(name);
-                XmlNode xn = xfa.FindDatasetsNode(shortName);
-                if (xn == null) {
-                    xn = xfa.DatasetsSom.InsertNode(xfa.DatasetsNode, shortName);
-                }
-                xfa.SetNodeText(xn, value);
-            }
+            //if (xfa.XfaPresent) {
+            //    name = xfa.FindFieldName(name, this);
+            //    if (name == null)
+            //        return false;
+            //    String shortName = XfaForm.Xml2Som.GetShortName(name);
+            //    XmlNode xn = xfa.FindDatasetsNode(shortName);
+            //    if (xn == null) {
+            //        xn = xfa.DatasetsSom.InsertNode(xfa.DatasetsNode, shortName);
+            //    }
+            //    xfa.SetNodeText(xn, value);
+            //}
             Item item = (Item)fields[name];
             if (item == null)
                 return false;
@@ -1406,11 +1406,11 @@ namespace iTextSharp.text.pdf {
         * does not exist
         */    
         public Item GetFieldItem(String name) {
-            if (xfa.XfaPresent) {
-                name = xfa.FindFieldName(name, this);
-                if (name == null)
-                    return null;
-            }
+            //if (xfa.XfaPresent) {
+            //    name = xfa.FindFieldName(name, this);
+            //    if (name == null)
+            //        return null;
+            //}
             return (Item)fields[name];
         }
 
@@ -1420,11 +1420,11 @@ namespace iTextSharp.text.pdf {
         * @return the long field name
         */    
         public String GetTranslatedFieldName(String name) {
-            if (xfa.XfaPresent) {
-                String namex = xfa.FindFieldName(name, this);
-                if (namex != null)
-                    name = namex;
-            }
+            //if (xfa.XfaPresent) {
+            //    String namex = xfa.FindFieldName(name, this);
+            //    if (namex != null)
+            //        name = namex;
+            //}
             return name;
         }
         
@@ -2357,11 +2357,11 @@ namespace iTextSharp.text.pdf {
         * Gets the XFA form processor.
         * @return the XFA form processor
         */
-        public XfaForm Xfa {
-            get {
-                return xfa;
-            }
-        }
+        //public XfaForm Xfa {
+        //    get {
+        //        return xfa;
+        //    }
+        //}
 
         private static readonly PdfName[] buttonRemove = {PdfName.MK, PdfName.F , PdfName.FF , PdfName.Q , PdfName.BS , PdfName.BORDER};
         

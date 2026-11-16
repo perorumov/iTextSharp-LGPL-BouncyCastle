@@ -6,7 +6,7 @@ using System.util;
 using iTextSharp.text.pdf.interfaces;
 using iTextSharp.text.pdf.intern;
 using iTextSharp.text.pdf.collection;
-using iTextSharp.text.xml.xmp;
+
 /*
  * Copyright 2003 by Paulo Soares.
  *
@@ -151,11 +151,11 @@ namespace iTextSharp.text.pdf {
             pages.Put(PdfName.ITXT, new PdfString(Document.ModifiedRelease));
             MarkUsed(pages);
             PdfDictionary acroForm = (PdfDictionary)PdfReader.GetPdfObject(catalog.Get(PdfName.ACROFORM), reader.Catalog);
-            if (acroFields != null && acroFields.Xfa.Changed) {
-                MarkUsed(acroForm);
-                if (!flat)
-                    acroFields.Xfa.SetXfa(this);
-            }
+            //if (acroFields != null && acroFields.Xfa.Changed) {
+            //    MarkUsed(acroForm);
+            //    if (!flat)
+            //        acroFields.Xfa.SetXfa(this);
+            //}
             if (sigFlags != 0) {
                 if (acroForm != null) {
                     acroForm.Put(PdfName.SIGFLAGS, new PdfNumber(sigFlags));
@@ -778,8 +778,8 @@ namespace iTextSharp.text.pdf {
         
         internal bool PartialFormFlattening(String name) {
             AcroFields af = AcroFields;
-            if (acroFields.Xfa.XfaPresent)
-                throw new InvalidOperationException("Partial form flattening is not supported with XFA forms.");
+            //if (acroFields.Xfa.XfaPresent)
+            //    throw new InvalidOperationException("Partial form flattening is not supported with XFA forms.");
             if (!acroFields.Fields.ContainsKey(name))
                 return false;
             partialFlattening[name] = null;

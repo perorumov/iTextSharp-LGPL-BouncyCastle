@@ -84,47 +84,40 @@ namespace iTextSharp.text.pdf {
         }
         
         public byte[] GetEncodedRecipient(int index) {
-            //Certificate certificate = recipient.GetX509();
             PdfPublicKeyRecipient recipient = (PdfPublicKeyRecipient)recipients[index];
             byte[] cms = recipient.Cms;
-            
+
             if (cms != null) return cms;
-            
-            X509Certificate certificate  = recipient.Certificate;
-            int permission =  recipient.Permission;//PdfWriter.AllowCopy | PdfWriter.AllowPrinting | PdfWriter.AllowScreenReaders | PdfWriter.AllowAssembly;   
+
+            X509Certificate certificate = recipient.Certificate;
+            int permission = recipient.Permission;
             int revision = 3;
-            
-            permission |= (int)(revision==3 ? (uint)0xfffff0c0 : (uint)0xffffffc0);
+
+            permission |= (int)(revision == 3 ? (uint)0xfffff0c0 : (uint)0xffffffc0);
             permission &= unchecked((int)0xfffffffc);
             permission += 1;
-          
+
             byte[] pkcs7input = new byte[24];
-            
+
             byte one = (byte)(permission);
             byte two = (byte)(permission >> 8);
             byte three = (byte)(permission >> 16);
             byte four = (byte)(permission >> 24);
 
-            System.Array.Copy(seed, 0, pkcs7input, 0, 20); // put this seed in the pkcs7 input
-                                
+            System.Array.Copy(seed, 0, pkcs7input, 0, 20);
+
             pkcs7input[20] = four;
-            pkcs7input[21] = three;                
+            pkcs7input[21] = three;
             pkcs7input[22] = two;
             pkcs7input[23] = one;
 
             Asn1Object obj = CreateDERForRecipient(pkcs7input, certificate);
-                
-            MemoryStream baos = new MemoryStream();
-                
-            DerOutputStream k = new DerOutputStream(baos);
-                
-            k.WriteObject(obj);  
-            
-            cms = baos.ToArray();
+
+            cms = obj.GetDerEncoded();
 
             recipient.Cms = cms;
-            
-            return cms;    
+
+            return cms;
         }
         
         public PdfArray GetEncodedRecipients() {
@@ -174,24 +167,31 @@ namespace iTextSharp.text.pdf {
         }
         
         private KeyTransRecipientInfo ComputeRecipientInfo(X509Certificate x509certificate, byte[] abyte0) {
-            Asn1InputStream asn1inputstream = 
-                new Asn1InputStream(new MemoryStream(x509certificate.GetTbsCertificate()));
-            TbsCertificateStructure tbscertificatestructure = 
+            Asn1InputStream asn1inputstream =
+                   new Asn1InputStream(new MemoryStream(x509certificate.GetTbsCertificate()));
+            TbsCertificateStructure tbscertificatestructure =
                 TbsCertificateStructure.GetInstance(asn1inputstream.ReadObject());
+
+            // Keep .AlgorithmID on SubjectPublicKeyInfo
             AlgorithmIdentifier algorithmidentifier = tbscertificatestructure.SubjectPublicKeyInfo.AlgorithmID;
-            Org.BouncyCastle.Asn1.Cms.IssuerAndSerialNumber issuerandserialnumber = 
+
+            Org.BouncyCastle.Asn1.Cms.IssuerAndSerialNumber issuerandserialnumber =
                 new Org.BouncyCastle.Asn1.Cms.IssuerAndSerialNumber(
-                    tbscertificatestructure.Issuer, 
+                    tbscertificatestructure.Issuer,
                     tbscertificatestructure.SerialNumber.Value);
-            IBufferedCipher cipher = CipherUtilities.GetCipher(algorithmidentifier.ObjectID);
+
+            // Use .Algorithm (instead of .ObjectID) on AlgorithmIdentifier
+            IBufferedCipher cipher = CipherUtilities.GetCipher(algorithmidentifier.Algorithm);
             cipher.Init(true, x509certificate.GetPublicKey());
+
             byte[] outp = new byte[10000];
             int len = cipher.DoFinal(abyte0, outp, 0);
             byte[] abyte1 = new byte[len];
             System.Array.Copy(outp, 0, abyte1, 0, len);
+
             DerOctetString deroctetstring = new DerOctetString(abyte1);
             RecipientIdentifier recipId = new RecipientIdentifier(issuerandserialnumber);
-            return new KeyTransRecipientInfo( recipId, algorithmidentifier, deroctetstring);
+            return new KeyTransRecipientInfo(recipId, algorithmidentifier, deroctetstring);
         }        
     }
 }

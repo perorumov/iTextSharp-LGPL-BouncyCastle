@@ -985,13 +985,8 @@ namespace iTextSharp.text.pdf {
                 digest = externalDigest;
             else
                 digest = sig.GenerateSignature();
-            MemoryStream bOut = new MemoryStream();
-            
-            Asn1OutputStream dout = new Asn1OutputStream(bOut);
-            dout.WriteObject(new DerOctetString(digest));
-            dout.Close();
-            
-            return bOut.ToArray();
+
+            return new DerOctetString(digest).GetEncoded();
         }
         
         /**
@@ -1165,13 +1160,14 @@ namespace iTextSharp.text.pdf {
             whole.Add(new DerObjectIdentifier(ID_PKCS7_SIGNED_DATA));
             whole.Add(new DerTaggedObject(0, new DerSequence(body)));
             
-            MemoryStream bOut = new MemoryStream();
+            //MemoryStream bOut = new MemoryStream();
             
-            Asn1OutputStream dout = new Asn1OutputStream(bOut);
-            dout.WriteObject(new DerSequence(whole));
-            dout.Close();
+            //Asn1OutputStream dout = new Asn1OutputStream(bOut);
+            //dout.WriteObject(new DerSequence(whole));
+            //dout.Close();
             
-            return bOut.ToArray();
+            //return bOut.ToArray();
+            return new DerSequence(whole).GetEncoded();
         }
         
         /**

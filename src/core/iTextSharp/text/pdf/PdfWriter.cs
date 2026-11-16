@@ -9,7 +9,6 @@ using iTextSharp.text.pdf.events;
 using iTextSharp.text.pdf.interfaces;
 using iTextSharp.text.pdf.intern;
 using iTextSharp.text.pdf.collection;
-using iTextSharp.text.xml.xmp;
 using Org.BouncyCastle.X509;
 /*
  * $Id: PdfWriter.cs,v 1.48 2008/05/13 11:25:23 psoares33 Exp $

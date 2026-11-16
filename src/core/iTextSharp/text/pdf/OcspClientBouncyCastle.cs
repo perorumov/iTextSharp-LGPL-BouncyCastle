@@ -1,13 +1,14 @@
-using System;
-using System.IO;
-using System.Collections;
-using System.Net;
-using Org.BouncyCastle.X509;
+using Org.BouncyCastle.Asn1;
+using Org.BouncyCastle.Asn1.Ocsp;
+using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Ocsp;
-using Org.BouncyCastle.Asn1;
-using Org.BouncyCastle.Asn1.X509;
-using Org.BouncyCastle.Asn1.Ocsp;
+using Org.BouncyCastle.X509;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
 /*
  * $Id: OcspClientBouncyCastle.java 3959 2009-06-09 08:31:05Z blowagie $
  *
@@ -95,21 +96,20 @@ namespace iTextSharp.text.pdf {
         private static OcspReq GenerateOCSPRequest(X509Certificate issuerCert, BigInteger serialNumber) {
             // Generate the id for the certificate we are looking for
             CertificateID id = new CertificateID(CertificateID.HashSha1, issuerCert, serialNumber);
-            
-            // basic request generation with nonce
+
+            // Basic request generation with nonce
             OcspReqGenerator gen = new OcspReqGenerator();
-            
             gen.AddRequest(id);
-            
-            // create details for nonce extension
-            ArrayList oids = new ArrayList();
-            ArrayList values = new ArrayList();
-            
+
+            // Create details for nonce extension using generic lists (works in both 1.8.1 and 2.7.x)
+            var oids = new List<DerObjectIdentifier>();
+            var values = new List<X509Extension>();
+
             oids.Add(OcspObjectIdentifiers.PkixOcspNonce);
             values.Add(new X509Extension(false, new DerOctetString(new DerOctetString(PdfEncryption.CreateDocumentId()).GetEncoded())));
-            
+
             gen.SetRequestExtensions(new X509Extensions(oids, values));
-            
+
             return gen.Generate();
         }
         
