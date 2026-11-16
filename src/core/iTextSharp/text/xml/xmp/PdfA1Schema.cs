@@ -55,38 +55,38 @@ namespace iTextSharp.text.xml.xmp {
     /**
     * An implementation of an XmpSchema.
     */
-    public class PdfA1Schema : XmpSchema {
+    //public class PdfA1Schema : XmpSchema {
         
-        /** default namespace identifier*/
-        public const String DEFAULT_XPATH_ID = "pdfaid";
-        /** default namespace uri*/
-        public const String DEFAULT_XPATH_URI = "http://www.aiim.org/pdfa/ns/id/";
-        /** Part, always 1. */
-        public const String PART = "pdfaid:part";
-        /** Conformance, A or B. */
-        public const String CONFORMANCE = "pdfaid:conformance";
+    //    /** default namespace identifier*/
+    //    public const String DEFAULT_XPATH_ID = "pdfaid";
+    //    /** default namespace uri*/
+    //    public const String DEFAULT_XPATH_URI = "http://www.aiim.org/pdfa/ns/id/";
+    //    /** Part, always 1. */
+    //    public const String PART = "pdfaid:part";
+    //    /** Conformance, A or B. */
+    //    public const String CONFORMANCE = "pdfaid:conformance";
         
-        /**
-        * @throws IOException
-        */
-        public PdfA1Schema() : base("xmlns:" + DEFAULT_XPATH_ID + "=\"" + DEFAULT_XPATH_URI + "\"") {
-            AddPart("1");
-        }
+    //    /**
+    //    * @throws IOException
+    //    */
+    //    public PdfA1Schema() : base("xmlns:" + DEFAULT_XPATH_ID + "=\"" + DEFAULT_XPATH_URI + "\"") {
+    //        AddPart("1");
+    //    }
         
-        /**
-        * Adds part.
-        * @param part
-        */
-        public void AddPart(String part) {
-            this[PART] = part;
-        }
+    //    /**
+    //    * Adds part.
+    //    * @param part
+    //    */
+    //    public void AddPart(String part) {
+    //        this[PART] = part;
+    //    }
         
-        /**
-        * Adds the conformance.
-        * @param conformance
-        */
-        public void AddConformance(String conformance) {
-            this[CONFORMANCE] = conformance;
-        }
-    }
+    //    /**
+    //    * Adds the conformance.
+    //    * @param conformance
+    //    */
+    //    public void AddConformance(String conformance) {
+    //        this[CONFORMANCE] = conformance;
+    //    }
+    //}
 }

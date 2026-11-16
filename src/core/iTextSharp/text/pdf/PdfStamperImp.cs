@@ -223,35 +223,37 @@ namespace iTextSharp.text.pdf {
             }
             // if there is XMP data to add: add it
             PdfDate date = new PdfDate();
-            if (altMetadata != null) {
-                PdfStream xmp;
-                try {
-                    XmpReader xmpr = new XmpReader(altMetadata);
-                    if (!xmpr.Replace("http://ns.adobe.com/pdf/1.3/", "Producer", producer))
-                        xmpr.Add("rdf:Description", "http://ns.adobe.com/pdf/1.3/", "pdf:Producer", producer);
-                    if (!xmpr.Replace("http://ns.adobe.com/xap/1.0/", "ModifyDate", date.GetW3CDate()))
-                        xmpr.Add("rdf:Description", "http://ns.adobe.com/xap/1.0/", "xmp:ModifyDate", date.GetW3CDate());
-                    xmpr.Replace("http://ns.adobe.com/xap/1.0/", "MetadataDate", date.GetW3CDate());
-                    xmp = new PdfStream(xmpr.SerializeDoc());
-                }
-                catch {
-                    xmp = new PdfStream(altMetadata);
-                }
-                xmp.Put(PdfName.TYPE, PdfName.METADATA);
-                xmp.Put(PdfName.SUBTYPE, PdfName.XML);
-                if (crypto != null && !crypto.IsMetadataEncrypted()) {
-                    PdfArray ar = new PdfArray();
-                    ar.Add(PdfName.CRYPT);
-                    xmp.Put(PdfName.FILTER, ar);
-                }
-                if (append && xmpo != null) {
-                    body.Add(xmp, xmpo.IndRef);
-                }
-                else {
-                    catalog.Put(PdfName.METADATA, body.Add(xmp).IndirectReference);
-                    MarkUsed(catalog);
-                }
-            }
+            //if (altMetadata != null) {
+            //    PdfStream xmp;
+            //    try {
+            //        XmpReader xmpr = new XmpReader(altMetadata);
+            //        if (!xmpr.Replace("http://ns.adobe.com/pdf/1.3/", "Producer", producer))
+            //            xmpr.Add("rdf:Description", "http://ns.adobe.com/pdf/1.3/", "pdf:Producer", producer);
+            //        if (!xmpr.Replace("http://ns.adobe.com/xap/1.0/", "ModifyDate", date.GetW3CDate()))
+            //            xmpr.Add("rdf:Description", "http://ns.adobe.com/xap/1.0/", "xmp:ModifyDate", date.GetW3CDate());
+            //        xmpr.Replace("http://ns.adobe.com/xap/1.0/", "MetadataDate", date.GetW3CDate());
+            //        xmp = new PdfStream(xmpr.SerializeDoc());
+            //    }
+            //    catch {
+            //        xmp = new PdfStream(altMetadata);
+            //    }
+            //    xmp.Put(PdfName.TYPE, PdfName.METADATA);
+            //    xmp.Put(PdfName.SUBTYPE, PdfName.XML);
+            //    if (crypto != null && !crypto.IsMetadataEncrypted()) {
+            //        PdfArray ar = new PdfArray();
+            //        ar.Add(PdfName.CRYPT);
+            //        xmp.Put(PdfName.FILTER, ar);
+            //    }
+            //    if (append && xmpo != null) {
+            //        body.Add(xmp, xmpo.IndRef);
+            //    }
+            //    else {
+            //        catalog.Put(PdfName.METADATA, body.Add(xmp).IndirectReference);
+            //        MarkUsed(catalog);
+            //    }
+            //}
+            
+            
             try {
                 file.ReOpen();
                 AlterContents();

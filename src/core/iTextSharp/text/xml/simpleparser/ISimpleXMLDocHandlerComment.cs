@@ -51,11 +51,11 @@ namespace iTextSharp.text.xml.simpleparser {
     * The handler for the events fired by <CODE>SimpleXMLParser</CODE>.
     * @author Paulo Soares (psoares@consiste.pt)
     */
-    public interface ISimpleXMLDocHandlerComment {
-        /**
-        * Called when a comment is found.
-        * @param text the comment text
-        */    
-        void Comment(String text);
-    }
+    //public interface ISimpleXMLDocHandlerComment {
+    //    /**
+    //    * Called when a comment is found.
+    //    * @param text the comment text
+    //    */    
+    //    void Comment(String text);
+    //}
 }

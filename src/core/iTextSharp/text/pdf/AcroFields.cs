@@ -1159,19 +1159,19 @@ namespace iTextSharp.text.pdf {
         * @throws DocumentException on error
         */
         
-        public void SetFields(XfdfReader xfdf) {
-            Hashtable fd = xfdf.Fields;
-            foreach (string f in fd.Keys) {
-                String v = xfdf.GetFieldValue(f);
-                if (v != null)
-                    SetField(f, v);
-                ArrayList l = xfdf.GetListValues(f);
-                if (l != null) {
-                    string[] ar = (string[])l.ToArray(typeof(string[]));
-                    SetListSelection(v, ar);
-                }
-            }
-        }
+        //public void SetFields(XfdfReader xfdf) {
+        //    Hashtable fd = xfdf.Fields;
+        //    foreach (string f in fd.Keys) {
+        //        String v = xfdf.GetFieldValue(f);
+        //        if (v != null)
+        //            SetField(f, v);
+        //        ArrayList l = xfdf.GetListValues(f);
+        //        if (l != null) {
+        //            string[] ar = (string[])l.ToArray(typeof(string[]));
+        //            SetListSelection(v, ar);
+        //        }
+        //    }
+        //}
 
         /**
         * Regenerates the field appearance.

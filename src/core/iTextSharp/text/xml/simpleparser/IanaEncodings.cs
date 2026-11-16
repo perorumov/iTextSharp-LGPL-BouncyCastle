@@ -76,12 +76,14 @@ namespace iTextSharp.text.xml.simpleparser {
     * Translates a IANA encoding name to a Java encoding.
     */
 
-    public class IanaEncodings {
+    public class IanaEncodings
+    {
 
-	    /** The object that maps IANA to Java encodings. */
+        /** The object that maps IANA to Java encodings. */
         private static readonly Hashtable map = new Hashtable();
 
-        static IanaEncodings() {        
+        static IanaEncodings()
+        {
             // add IANA to .NET encoding mappings.
             map["CP037"] = 37;
             map["CSIBM037"] = 37;
@@ -524,15 +526,17 @@ namespace iTextSharp.text.xml.simpleparser {
             map["X-UNICODE-1-1-UTF-8"] = 65001;
             map["X-UNICODE-2-0-UTF-8"] = 65001;
         }
-        
-        public static int GetEncodingNumber(string name) {
+
+        public static int GetEncodingNumber(string name)
+        {
             object n = map[name.ToUpper(System.Globalization.CultureInfo.InvariantCulture)];
             if (n == null)
                 return 0;
             return (int)n;
         }
 
-        public static Encoding GetEncodingEncoding(string name) {
+        public static Encoding GetEncodingEncoding(string name)
+        {
             String nameU = name.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
             if (nameU.Equals("UNICODEBIGUNMARKED"))
                 return new UnicodeEncoding(true, false);

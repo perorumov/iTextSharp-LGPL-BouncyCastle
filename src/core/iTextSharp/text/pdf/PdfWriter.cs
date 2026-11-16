@@ -1688,23 +1688,23 @@ namespace iTextSharp.text.pdf {
         /**
         * Creates XMP Metadata based on the metadata in the PdfDocument.
         */
-        public void CreateXmpMetadata() {
-            XmpMetadata = CreateXmpMetadataBytes();
-        }
+        //public void CreateXmpMetadata() {
+        //    XmpMetadata = CreateXmpMetadataBytes();
+        //}
 
         /**
         * @return an XmpMetadata byte array
         */
-        private byte[] CreateXmpMetadataBytes() {
-            MemoryStream baos = new MemoryStream();
-            try {
-                XmpWriter xmp = new XmpWriter(baos, pdf.Info, pdfxConformance.PDFXConformance);
-                xmp.Close();
-            }
-            catch(IOException) {
-            }
-            return baos.ToArray();
-        }
+        //private byte[] CreateXmpMetadataBytes() {
+        //    MemoryStream baos = new MemoryStream();
+        //    try {
+        //        XmpWriter xmp = new XmpWriter(baos, pdf.Info, pdfxConformance.PDFXConformance);
+        //        xmp.Close();
+        //    }
+        //    catch(IOException) {
+        //    }
+        //    return baos.ToArray();
+        //}
 
     // [C10] PDFX Conformance
 
