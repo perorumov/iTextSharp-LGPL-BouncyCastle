@@ -58,25 +58,25 @@ namespace System.util.collections {
         // the tree
         private OrderedTreeNode rbTree;
         // sentinelNode is convenient way of indicating a leaf node.
-        public static OrderedTreeNode sentinelNode;          
+        private OrderedTreeNode sentinelNode;          
         // the node that was last found; used to optimize searches
         private OrderedTreeNode lastNodeFound;          
-        private Random rand = new Random();
+       
 
-        static OrderedTree() {
-            // set up the sentinel node. the sentinel node is the key to a successfull
-            // implementation and for understanding the red-black tree properties.
+
+
+
+        
+        public OrderedTree()
+        {
             sentinelNode = new OrderedTreeNode();
-            sentinelNode.Left = sentinelNode.Right = sentinelNode;
+            sentinelNode.Left = (sentinelNode.Right = sentinelNode);
             sentinelNode.Parent = null;
-            sentinelNode.Color = OrderedTreeNode.BLACK;
-        }
-
-        public OrderedTree() {
+            sentinelNode.Color = true;
             rbTree = sentinelNode;
             lastNodeFound = sentinelNode;
         }
-        
+
         public object this[IComparable key] {
             get {
                 return GetData(key);
@@ -137,9 +137,9 @@ namespace System.util.collections {
         /// key is object that implements IComparable interface
         /// performance tip: change to use use int type (such as the hashcode)
         ///</summary>
-        public void Add(IComparable key, object data) {
+        public virtual void Add(IComparable key, object data) {
             if(key == null)
-                throw(new ArgumentNullException("Key is null"));
+                throw(new ArgumentNullException("key"));
             
             // traverse tree - find where node belongs
             int result = 0;
@@ -251,7 +251,7 @@ namespace System.util.collections {
         /// RotateLeft
         /// Rebalance the tree by rotating the nodes to the left
         ///</summary>
-        public void RotateLeft(OrderedTreeNode x) {
+        public virtual void RotateLeft(OrderedTreeNode x) {
             // pushing node x down and to the Left to balance the tree. x's Right child (y)
             // replaces x (since y > x), and y's Left child becomes x's Right child 
             // (since it's < y but > x).
@@ -287,7 +287,7 @@ namespace System.util.collections {
         /// RotateRight
         /// Rebalance the tree by rotating the nodes to the right
         ///</summary>
-        public void RotateRight(OrderedTreeNode x) {
+        public virtual void RotateRight(OrderedTreeNode x) {
             // pushing node x down and to the Right to balance the tree. x's Left child (y)
             // replaces x (since x < y), and y's Right child becomes x's Left child 
             // (since it's < x but > y).
@@ -320,7 +320,7 @@ namespace System.util.collections {
                 x.Parent = y;       
         }
         
-        public bool ContainsKey(IComparable key) {
+        public virtual bool ContainsKey(IComparable key) {
             OrderedTreeNode treeNode = rbTree; // begin at root
             int result = 0;
             // traverse tree until node is found
@@ -342,7 +342,7 @@ namespace System.util.collections {
         /// GetData
         /// Gets the data object associated with the specified key
         ///<summary>
-        public object GetData(IComparable key) {
+        public virtual object GetData(IComparable key) {
             if(key == null)
                 throw new ArgumentNullException("Key is null");
             int result;
@@ -367,7 +367,7 @@ namespace System.util.collections {
         /// GetMinKey
         /// Returns the minimum key value
         ///<summary>
-        public IComparable GetMinKey() {
+        public virtual IComparable GetMinKey() {
             OrderedTreeNode treeNode = rbTree;
             
             if(treeNode == null || treeNode == sentinelNode)
@@ -386,7 +386,7 @@ namespace System.util.collections {
         /// GetMaxKey
         /// Returns the maximum key value
         ///<summary>
-        public IComparable GetMaxKey() {
+        public virtual IComparable GetMaxKey() {
             OrderedTreeNode treeNode = rbTree;
             
             if(treeNode == null || treeNode == sentinelNode)
@@ -405,21 +405,21 @@ namespace System.util.collections {
         /// GetMinValue
         /// Returns the object having the minimum key value
         ///<summary>
-        public object GetMinValue() {
+        public virtual object GetMinValue() {
             return GetData(GetMinKey());
         }
         ///<summary>
         /// GetMaxValue
         /// Returns the object having the maximum key
         ///<summary>
-        public object GetMaxValue() {
+        public virtual object GetMaxValue() {
             return GetData(GetMaxKey());
         }
         ///<summary>
         /// GetEnumerator
         /// return an enumerator that returns the tree nodes in order
         ///<summary>
-        public OrderedTreeEnumerator GetEnumerator() {
+        public virtual OrderedTreeEnumerator GetEnumerator() {
             // elements is simply a generic name to refer to the 
             // data objects the nodes contain
             return Elements(true);      
@@ -429,19 +429,20 @@ namespace System.util.collections {
         /// if(ascending is true, the keys will be returned in ascending order, else
         /// the keys will be returned in descending order.
         ///<summary>
-        public OrderedTreeEnumerator Keys {
+        public virtual OrderedTreeEnumerator Keys {
             get {
                 return KeyElements(true);
             }
         }
-        public OrderedTreeEnumerator KeyElements(bool ascending) {
-            return new OrderedTreeEnumerator(rbTree, true, ascending);
+        public virtual OrderedTreeEnumerator KeyElements(bool ascending) {
+            //return new OrderedTreeEnumerator(rbTree, true, ascending);
+            return new OrderedTreeEnumerator(rbTree, keys: true, ascending, sentinelNode);
         }
         ///<summary>
         /// Values
         /// Provided for .NET compatibility. 
         ///<summary>
-        public OrderedTreeEnumerator Values {
+        public virtual OrderedTreeEnumerator Values {
             get {
                 return Elements(true);
             }
@@ -452,24 +453,25 @@ namespace System.util.collections {
         /// if(ascending is true, the objects will be returned in ascending order,
         /// else the objects will be returned in descending order.
         ///<summary>
-        public OrderedTreeEnumerator Elements() {
+        public virtual OrderedTreeEnumerator Elements() {
             return Elements(true);
         }
-        public OrderedTreeEnumerator Elements(bool ascending) {
-            return new OrderedTreeEnumerator(rbTree, false, ascending);
+        public virtual OrderedTreeEnumerator Elements(bool ascending) {
+            //return new OrderedTreeEnumerator(rbTree, false, ascending);
+            return new OrderedTreeEnumerator(rbTree, keys: false, ascending, sentinelNode);
         }
         ///<summary>
         /// IsEmpty
         /// Is the tree empty?
         ///<summary>
-        public bool IsEmpty() {
+        public virtual bool IsEmpty() {
             return (rbTree == null || rbTree == sentinelNode);
         }
         ///<summary>
         /// Remove
         /// removes the key and data object (delete)
         ///<summary>
-        public void Remove(IComparable key) {
+        public virtual void Remove(IComparable key) {
             if(key == null)
                 throw new ArgumentNullException("Key is null");
         
@@ -640,7 +642,7 @@ namespace System.util.collections {
         /// RemoveMin
         /// removes the node with the minimum key
         ///<summary>
-        public void RemoveMin() {
+        public virtual void RemoveMin() {
             if(rbTree == null || rbTree == sentinelNode)
                 return;
             Remove(GetMinKey());
@@ -649,7 +651,7 @@ namespace System.util.collections {
         /// RemoveMax
         /// removes the node with the maximum key
         ///<summary>
-        public void RemoveMax() {
+        public virtual void RemoveMax() {
             if(rbTree == null || rbTree == sentinelNode)
                 return;
             Remove(GetMaxKey());
@@ -658,12 +660,12 @@ namespace System.util.collections {
         /// Clear
         /// Empties or clears the tree
         ///<summary>
-        public void Clear () {
+        public virtual void Clear () {
             rbTree = sentinelNode;
             intCount = 0;
         }
 
-        public int Count {
+        public virtual int Count {
             get {
                 return intCount;
             }
@@ -678,6 +680,7 @@ namespace System.util.collections {
         // return in ascending order (true) or descending (false)
         private bool ascending;
         private OrderedTreeNode tnode;
+        private OrderedTreeNode sentinelNode;
         bool pre = true;
         
         // key
@@ -688,7 +691,7 @@ namespace System.util.collections {
         ///<summary>
         ///Key
         ///</summary>
-        public IComparable Key {
+        public virtual IComparable Key {
             get {
                 return ordKey;
             }
@@ -700,7 +703,7 @@ namespace System.util.collections {
         ///<summary>
         ///Data
         ///</summary>
-        public object Value {
+        public virtual object Value {
             get {
                 return objValue;
             }
@@ -715,37 +718,73 @@ namespace System.util.collections {
         ///<summary>
         /// Determine order, walk the tree and push the nodes onto the stack
         ///</summary>
-        public OrderedTreeEnumerator(OrderedTreeNode tnode, bool keys, bool ascending) {
-            
+        //public OrderedTreeEnumerator(OrderedTreeNode tnode, bool keys, bool ascending) {
+
+        //    stack = new Stack();
+        //    this.keys = keys;
+        //    this.ascending = ascending;
+        //    this.tnode = tnode;
+        //    Reset();            
+        //}
+
+        public OrderedTreeEnumerator(OrderedTreeNode tnode, bool keys, bool ascending, OrderedTreeNode sentinelNode)
+        {
+            this.sentinelNode = sentinelNode;
             stack = new Stack();
             this.keys = keys;
             this.ascending = ascending;
             this.tnode = tnode;
-            Reset();            
+            Reset();
         }
 
-        public void Reset() {
+        //public void Reset() {
+        //    pre = true;
+        //    stack.Clear();
+        //    // use depth-first traversal to push nodes into stack
+        //    // the lowest node will be at the top of the stack
+        //    if(ascending) {
+        //        // find the lowest node
+        //        while(tnode != OrderedTree.sentinelNode) {
+        //            stack.Push(tnode);
+        //            tnode = tnode.Left;
+        //        }
+        //    }
+        //    else {
+        //        // the highest node will be at top of stack
+        //        while(tnode != OrderedTree.sentinelNode) {
+        //            stack.Push(tnode);
+        //            tnode = tnode.Right;
+        //        }
+        //    }
+        //}
+
+        public virtual void Reset()
+        {
             pre = true;
             stack.Clear();
             // use depth-first traversal to push nodes into stack
             // the lowest node will be at the top of the stack
-            if(ascending) {
+            if (ascending)
+            {
                 // find the lowest node
-                while(tnode != OrderedTree.sentinelNode) {
+                while (tnode != sentinelNode)
+                {
                     stack.Push(tnode);
                     tnode = tnode.Left;
                 }
             }
-            else {
+            else
+            {
                 // the highest node will be at top of stack
-                while(tnode != OrderedTree.sentinelNode) {
+                while (tnode != sentinelNode)
+                {
                     stack.Push(tnode);
                     tnode = tnode.Right;
                 }
             }
         }
 
-        public object Current {
+        public virtual object Current {
             get {
                 if (pre)
                     throw new InvalidOperationException("Current");
@@ -756,72 +795,138 @@ namespace System.util.collections {
         ///<summary>
         /// HasMoreElements
         ///</summary>
-        public bool HasMoreElements() {
+        public virtual bool HasMoreElements() {
             return (stack.Count > 0);
         }
         ///<summary>
         /// NextElement
         ///</summary>
-        public object NextElement() {
-            if(stack.Count == 0)
+        //public object NextElement() {
+        //    if(stack.Count == 0)
+
+        //        throw new InvalidOperationException("Element not found");
+            
+        //    // the top of stack will always have the next item
+        //    // get top of stack but don't remove it as the next nodes in sequence
+        //    // may be pushed onto the top
+        //    // the stack will be popped after all the nodes have been returned
+        //    OrderedTreeNode node = (OrderedTreeNode) stack.Peek(); //next node in sequence
+            
+        //    if(ascending) {
+        //        if(node.Right == OrderedTree.sentinelNode) {   
+        //            // yes, top node is lowest node in subtree - pop node off stack 
+        //            OrderedTreeNode tn = (OrderedTreeNode) stack.Pop();
+        //            // peek at right node's parent 
+        //            // get rid of it if it has already been used
+        //            while(HasMoreElements()&& ((OrderedTreeNode) stack.Peek()).Right == tn)
+        //                tn = (OrderedTreeNode) stack.Pop();
+        //        }
+        //        else {
+        //            // find the next items in the sequence
+        //            // traverse to left; find lowest and push onto stack
+        //            OrderedTreeNode tn = node.Right;
+        //            while(tn != OrderedTree.sentinelNode) {
+        //                stack.Push(tn);
+        //                tn = tn.Left;
+        //            }
+        //        }
+        //    }
+        //    else { // descending, same comments as above apply
+        //        if(node.Left == OrderedTree.sentinelNode) {
+        //            // walk the tree
+        //            OrderedTreeNode tn = (OrderedTreeNode) stack.Pop();
+        //            while(HasMoreElements() && ((OrderedTreeNode)stack.Peek()).Left == tn)
+        //                tn = (OrderedTreeNode) stack.Pop();
+        //        }
+        //        else {
+        //            // determine next node in sequence
+        //            // traverse to left subtree and find greatest node - push onto stack
+        //            OrderedTreeNode tn = node.Left;
+        //            while(tn != OrderedTree.sentinelNode) {
+        //                stack.Push(tn);
+        //                tn = tn.Right;
+        //            }
+        //        }
+        //    }
+            
+        //    // the following is for .NET compatibility (see MoveNext())
+        //    Key = node.Key;
+        //    Value = node.Data;
+        //    // ******** testing only ********
+
+        //    return keys == true ? node.Key : node.Data;         
+        //}
+
+
+        public virtual object NextElement()
+        {
+            if (stack.Count == 0)
 
                 throw new InvalidOperationException("Element not found");
-            
+
             // the top of stack will always have the next item
             // get top of stack but don't remove it as the next nodes in sequence
             // may be pushed onto the top
             // the stack will be popped after all the nodes have been returned
-            OrderedTreeNode node = (OrderedTreeNode) stack.Peek(); //next node in sequence
-            
-            if(ascending) {
-                if(node.Right == OrderedTree.sentinelNode) {   
+            OrderedTreeNode node = (OrderedTreeNode)stack.Peek(); //next node in sequence
+
+            if (ascending)
+            {
+                if (node.Right == sentinelNode)
+                {
                     // yes, top node is lowest node in subtree - pop node off stack 
-                    OrderedTreeNode tn = (OrderedTreeNode) stack.Pop();
+                    OrderedTreeNode tn = (OrderedTreeNode)stack.Pop();
                     // peek at right node's parent 
                     // get rid of it if it has already been used
-                    while(HasMoreElements()&& ((OrderedTreeNode) stack.Peek()).Right == tn)
-                        tn = (OrderedTreeNode) stack.Pop();
+                    while (HasMoreElements() && ((OrderedTreeNode)stack.Peek()).Right == tn)
+                        tn = (OrderedTreeNode)stack.Pop();
                 }
-                else {
+                else
+                {
                     // find the next items in the sequence
                     // traverse to left; find lowest and push onto stack
                     OrderedTreeNode tn = node.Right;
-                    while(tn != OrderedTree.sentinelNode) {
+                    while (tn != sentinelNode)
+                    {
                         stack.Push(tn);
                         tn = tn.Left;
                     }
                 }
             }
-            else { // descending, same comments as above apply
-                if(node.Left == OrderedTree.sentinelNode) {
+            else
+            { // descending, same comments as above apply
+                if (node.Left == sentinelNode)
+                {
                     // walk the tree
-                    OrderedTreeNode tn = (OrderedTreeNode) stack.Pop();
-                    while(HasMoreElements() && ((OrderedTreeNode)stack.Peek()).Left == tn)
-                        tn = (OrderedTreeNode) stack.Pop();
+                    OrderedTreeNode tn = (OrderedTreeNode)stack.Pop();
+                    while (HasMoreElements() && ((OrderedTreeNode)stack.Peek()).Left == tn)
+                        tn = (OrderedTreeNode)stack.Pop();
                 }
-                else {
+                else
+                {
                     // determine next node in sequence
                     // traverse to left subtree and find greatest node - push onto stack
                     OrderedTreeNode tn = node.Left;
-                    while(tn != OrderedTree.sentinelNode) {
+                    while (tn != sentinelNode)
+                    {
                         stack.Push(tn);
                         tn = tn.Right;
                     }
                 }
             }
-            
+
             // the following is for .NET compatibility (see MoveNext())
             Key = node.Key;
             Value = node.Data;
             // ******** testing only ********
 
-            return keys == true ? node.Key : node.Data;         
+            return keys == true ? node.Key : node.Data;
         }
         ///<summary>
         /// MoveNext
         /// For .NET compatibility
         ///</summary>
-        public bool MoveNext() {
+        public virtual bool MoveNext() {
             if(HasMoreElements()) {
                 NextElement();
                 pre = false;
@@ -831,7 +936,7 @@ namespace System.util.collections {
             return false;
         }
 
-        public OrderedTreeEnumerator GetEnumerator() {
+        public virtual OrderedTreeEnumerator GetEnumerator() {
             return this;
         }
     }
@@ -857,7 +962,7 @@ namespace System.util.collections {
         ///<summary>
         ///Key
         ///</summary>
-        public IComparable Key {
+        public virtual IComparable Key {
             get {
                 return ordKey;
             }
@@ -869,7 +974,7 @@ namespace System.util.collections {
         ///<summary>
         ///Data
         ///</summary>
-        public object Data {
+        public virtual object Data {
             get {
                 return objData;
             }
@@ -881,7 +986,7 @@ namespace System.util.collections {
         ///<summary>
         ///Color
         ///</summary>
-        public bool Color {
+        public virtual bool Color {
             get {
                 return intColor;
             }
@@ -893,7 +998,7 @@ namespace System.util.collections {
         ///<summary>
         ///Left
         ///</summary>
-        public OrderedTreeNode Left {
+        public virtual OrderedTreeNode Left {
             get {
                 return rbnLeft;
             }
@@ -905,7 +1010,7 @@ namespace System.util.collections {
         ///<summary>
         /// Right
         ///</summary>
-        public OrderedTreeNode Right {
+        public virtual OrderedTreeNode Right {
             get {
                 return rbnRight;
             }
@@ -914,7 +1019,7 @@ namespace System.util.collections {
                 rbnRight = value;
             }
         }
-        public OrderedTreeNode Parent {
+        public virtual OrderedTreeNode Parent {
             get {
                 return rbnParent;
             }

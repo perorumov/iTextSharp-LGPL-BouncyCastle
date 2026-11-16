@@ -113,6 +113,9 @@ namespace iTextSharp.text {
 	    /** This constant may only be changed by Paulo Soares and/or Bruno Lowagie. */
 	    private const String ITEXT_VERSION = ITEXT + " " + RELEASE + " by 1T3XT";
 
+        private const String MODIFIED_ITEXT_VERSION = ITEXT + " " +MODIFIED_RELEASE + " by NS";
+        private const String MODIFIED_RELEASE = "4.1.6-NS_Modified";
+
         ///<summary> Allows the pdf documents to be produced without compression for debugging purposes. </summary>
         public static bool Compress = true;
 
@@ -643,10 +646,18 @@ namespace iTextSharp.text {
         * @return the product name
         * @since	2.1.6
         */    
-        public static String Release {
-            get {
-                    return RELEASE;
-                }
+        //public static String Release {
+        //    get {
+        //            return RELEASE;
+        //        }
+        //}
+
+        public static String ModifiedRelease
+        {
+            get
+            {
+                return MODIFIED_RELEASE;
+            }
         }
         
         /// <summary>
@@ -655,9 +666,11 @@ namespace iTextSharp.text {
         /// <value>iText version</value>
         public static string Version {
             get {
-                return ITEXT_VERSION;
+                //return ITEXT_VERSION;
+                return MODIFIED_ITEXT_VERSION;
             }
         }
+        
 
         /// <summary>
         /// Gets the JavaScript onLoad command.
