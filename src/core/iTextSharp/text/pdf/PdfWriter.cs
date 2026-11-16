@@ -10,6 +10,7 @@ using iTextSharp.text.pdf.interfaces;
 using iTextSharp.text.pdf.intern;
 using iTextSharp.text.pdf.collection;
 using Org.BouncyCastle.X509;
+using iTextSharp.text.xml.xmp;
 /*
  * $Id: PdfWriter.cs,v 1.48 2008/05/13 11:25:23 psoares33 Exp $
  * 
@@ -1687,25 +1688,29 @@ namespace iTextSharp.text.pdf {
         /**
         * Creates XMP Metadata based on the metadata in the PdfDocument.
         */
-        //public void CreateXmpMetadata() {
-        //    XmpMetadata = CreateXmpMetadataBytes();
-        //}
+        public void CreateXmpMetadata()
+        {
+            XmpMetadata = CreateXmpMetadataBytes();
+        }
 
         /**
         * @return an XmpMetadata byte array
         */
-        //private byte[] CreateXmpMetadataBytes() {
-        //    MemoryStream baos = new MemoryStream();
-        //    try {
-        //        XmpWriter xmp = new XmpWriter(baos, pdf.Info, pdfxConformance.PDFXConformance);
-        //        xmp.Close();
-        //    }
-        //    catch(IOException) {
-        //    }
-        //    return baos.ToArray();
-        //}
+        private byte[] CreateXmpMetadataBytes()
+        {
+            MemoryStream baos = new MemoryStream();
+            try
+            {
+                XmpWriter xmp = new XmpWriter(baos, pdf.Info, pdfxConformance.PDFXConformance);
+                xmp.Close();
+            }
+            catch (IOException)
+            {
+            }
+            return baos.ToArray();
+        }
 
-    // [C10] PDFX Conformance
+        // [C10] PDFX Conformance
 
         /** PDF/X level */
         public const int PDFXNONE = 0;
