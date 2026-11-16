@@ -222,41 +222,43 @@ namespace iTextSharp.text {
             float size = Font.UNDEFINED;
             int style = Font.NORMAL;
             Color color = null;
-            string value = attributes[Markup.HTML_ATTR_STYLE];
-            if (value != null && value.Length > 0) {
-                Properties styleAttributes = Markup.ParseAttributes(value);
-                if (styleAttributes.Count == 0) {
-                    attributes.Add(Markup.HTML_ATTR_STYLE, value);
-                }
-                else {
-                    fontname = styleAttributes[Markup.CSS_KEY_FONTFAMILY];
-                    if (fontname != null) {
-                        string tmp;
-                        while (fontname.IndexOf(',') != -1) {
-                            tmp = fontname.Substring(0, fontname.IndexOf(','));
-                            if (IsRegistered(tmp)) {
-                                fontname = tmp;
-                            }
-                            else {
-                                fontname = fontname.Substring(fontname.IndexOf(',') + 1);
-                            }
-                        }
-                    }
-                    if ((value = styleAttributes[Markup.CSS_KEY_FONTSIZE]) != null) {
-                        size = Markup.ParseLength(value);
-                    }
-                    if ((value = styleAttributes[Markup.CSS_KEY_FONTWEIGHT]) != null) {
-                        style |= Font.GetStyleValue(value);
-                    }
-                    if ((value = styleAttributes[Markup.CSS_KEY_FONTSTYLE]) != null) {
-                        style |= Font.GetStyleValue(value);
-                    }
-                    if ((value = styleAttributes[Markup.CSS_KEY_COLOR]) != null) {
-                        color = Markup.DecodeColor(value);
-                    }
-                    attributes.AddAll(styleAttributes);
-                }
-            }
+            //no css and markup allowed
+            string value = string.Empty;
+            //string value = attributes[Markup.HTML_ATTR_STYLE];
+            //if (value != null && value.Length > 0) {
+            //    Properties styleAttributes = Markup.ParseAttributes(value);
+            //    if (styleAttributes.Count == 0) {
+            //        attributes.Add(Markup.HTML_ATTR_STYLE, value);
+            //    }
+            //    else {
+            //        fontname = styleAttributes[Markup.CSS_KEY_FONTFAMILY];
+            //        if (fontname != null) {
+            //            string tmp;
+            //            while (fontname.IndexOf(',') != -1) {
+            //                tmp = fontname.Substring(0, fontname.IndexOf(','));
+            //                if (IsRegistered(tmp)) {
+            //                    fontname = tmp;
+            //                }
+            //                else {
+            //                    fontname = fontname.Substring(fontname.IndexOf(',') + 1);
+            //                }
+            //            }
+            //        }
+            //        if ((value = styleAttributes[Markup.CSS_KEY_FONTSIZE]) != null) {
+            //            size = Markup.ParseLength(value);
+            //        }
+            //        if ((value = styleAttributes[Markup.CSS_KEY_FONTWEIGHT]) != null) {
+            //            style |= Font.GetStyleValue(value);
+            //        }
+            //        if ((value = styleAttributes[Markup.CSS_KEY_FONTSTYLE]) != null) {
+            //            style |= Font.GetStyleValue(value);
+            //        }
+            //        if ((value = styleAttributes[Markup.CSS_KEY_COLOR]) != null) {
+            //            color = Markup.DecodeColor(value);
+            //        }
+            //        attributes.AddAll(styleAttributes);
+            //    }
+            //}
             if ((value = attributes[ElementTags.ENCODING]) != null) {
                 encoding = value;
             }
@@ -269,9 +271,10 @@ namespace iTextSharp.text {
             if ((value = attributes[ElementTags.SIZE]) != null) {
                 size = float.Parse(value, System.Globalization.NumberFormatInfo.InvariantInfo);
             }
-            if ((value = attributes[Markup.HTML_ATTR_STYLE]) != null) {
-                style |= Font.GetStyleValue(value);
-            }
+            //no css and markup allowed
+            //if ((value = attributes[Markup.HTML_ATTR_STYLE]) != null) {
+            //    style |= Font.GetStyleValue(value);
+            //}
             if ((value = attributes[ElementTags.STYLE]) != null) {
                 style |= Font.GetStyleValue(value);
             }
@@ -288,7 +291,8 @@ namespace iTextSharp.text {
                 color = new Color(red, green, blue);
             }
             else if ((value = attributes[ElementTags.COLOR]) != null) {
-                color = Markup.DecodeColor(value);
+                //no css and markup allowed
+                //color = Markup.DecodeColor(value);
             }
             if (fontname == null) {
                 return GetFont(null, encoding, embedded, size, style, color);

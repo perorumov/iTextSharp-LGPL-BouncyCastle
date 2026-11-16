@@ -56,98 +56,98 @@ namespace iTextSharp.text.html.simpleparser {
     *
     * @author  psoares
     */
-    public class IncCell : ITextElementArray {
+    //public class IncCell : ITextElementArray {
         
-        private ArrayList chunks = new ArrayList();
-        private PdfPCell cell;
+    //    private ArrayList chunks = new ArrayList();
+    //    private PdfPCell cell;
         
-        /** Creates a new instance of IncCell */
-        public IncCell(String tag, ChainedProperties props) {
-            cell = new PdfPCell();
-            String value = props["colspan"];
-            if (value != null)
-                cell.Colspan = int.Parse(value);
-            value = props["align"];
-            if (tag.Equals("th"))
-                cell.HorizontalAlignment = Element.ALIGN_CENTER;
-            if (value != null) {
-                if (Util.EqualsIgnoreCase(value, "center"))
-                    cell.HorizontalAlignment = Element.ALIGN_CENTER;
-                else if (Util.EqualsIgnoreCase(value, "right"))
-                    cell.HorizontalAlignment = Element.ALIGN_RIGHT;
-                else if (Util.EqualsIgnoreCase(value, "left"))
-                    cell.HorizontalAlignment = Element.ALIGN_LEFT;
-                else if (Util.EqualsIgnoreCase(value, "justify"))
-                    cell.HorizontalAlignment = Element.ALIGN_JUSTIFIED;
-            }
-            value = props["valign"];
-            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            if (value != null) {
-                if (Util.EqualsIgnoreCase(value, "top"))
-                    cell.VerticalAlignment = Element.ALIGN_TOP;
-                else if (Util.EqualsIgnoreCase(value, "bottom"))
-                    cell.VerticalAlignment = Element.ALIGN_BOTTOM;
-            }
-            value = props["border"];
-            float border = 0;
-            if (value != null)
-                border = float.Parse(value, System.Globalization.NumberFormatInfo.InvariantInfo);
-            cell.BorderWidth = border;
-            value = props["cellpadding"];
-            if (value != null)
-                cell.Padding = float.Parse(value, System.Globalization.NumberFormatInfo.InvariantInfo);
-            cell.UseDescender = true;
-            value = props["bgcolor"];
-            cell.BackgroundColor = Markup.DecodeColor(value);
-        }
+    //    /** Creates a new instance of IncCell */
+    //    public IncCell(String tag, ChainedProperties props) {
+    //        cell = new PdfPCell();
+    //        String value = props["colspan"];
+    //        if (value != null)
+    //            cell.Colspan = int.Parse(value);
+    //        value = props["align"];
+    //        if (tag.Equals("th"))
+    //            cell.HorizontalAlignment = Element.ALIGN_CENTER;
+    //        if (value != null) {
+    //            if (Util.EqualsIgnoreCase(value, "center"))
+    //                cell.HorizontalAlignment = Element.ALIGN_CENTER;
+    //            else if (Util.EqualsIgnoreCase(value, "right"))
+    //                cell.HorizontalAlignment = Element.ALIGN_RIGHT;
+    //            else if (Util.EqualsIgnoreCase(value, "left"))
+    //                cell.HorizontalAlignment = Element.ALIGN_LEFT;
+    //            else if (Util.EqualsIgnoreCase(value, "justify"))
+    //                cell.HorizontalAlignment = Element.ALIGN_JUSTIFIED;
+    //        }
+    //        value = props["valign"];
+    //        cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+    //        if (value != null) {
+    //            if (Util.EqualsIgnoreCase(value, "top"))
+    //                cell.VerticalAlignment = Element.ALIGN_TOP;
+    //            else if (Util.EqualsIgnoreCase(value, "bottom"))
+    //                cell.VerticalAlignment = Element.ALIGN_BOTTOM;
+    //        }
+    //        value = props["border"];
+    //        float border = 0;
+    //        if (value != null)
+    //            border = float.Parse(value, System.Globalization.NumberFormatInfo.InvariantInfo);
+    //        cell.BorderWidth = border;
+    //        value = props["cellpadding"];
+    //        if (value != null)
+    //            cell.Padding = float.Parse(value, System.Globalization.NumberFormatInfo.InvariantInfo);
+    //        cell.UseDescender = true;
+    //        value = props["bgcolor"];
+    //        cell.BackgroundColor = Markup.DecodeColor(value);
+    //    }
         
-        public bool Add(Object o) {
-            if (!(o is IElement))
-                return false;
-            cell.AddElement((IElement)o);
-            return true;
-        }
+    //    public bool Add(Object o) {
+    //        if (!(o is IElement))
+    //            return false;
+    //        cell.AddElement((IElement)o);
+    //        return true;
+    //    }
         
-        public ArrayList Chunks {
-            get {
-                return chunks;
-            }
-        }
+    //    public ArrayList Chunks {
+    //        get {
+    //            return chunks;
+    //        }
+    //    }
         
-        public bool Process(IElementListener listener) {
-            return true;
-        }
+    //    public bool Process(IElementListener listener) {
+    //        return true;
+    //    }
         
-        public int Type {
-            get {
-                return Element.RECTANGLE;
-            }
-        }
+    //    public int Type {
+    //        get {
+    //            return Element.RECTANGLE;
+    //        }
+    //    }
         
-        public PdfPCell Cell {
-            get {
-                return cell;
-            }
-        }    
+    //    public PdfPCell Cell {
+    //        get {
+    //            return cell;
+    //        }
+    //    }    
 
-        /**
-        * @see com.lowagie.text.Element#isContent()
-        * @since   iText 2.0.8
-        */
-        public bool IsContent() {
-            return true;
-        }
+    //    /**
+    //    * @see com.lowagie.text.Element#isContent()
+    //    * @since   iText 2.0.8
+    //    */
+    //    public bool IsContent() {
+    //        return true;
+    //    }
 
-        /**
-        * @see com.lowagie.text.Element#isNestable()
-        * @since   iText 2.0.8
-        */
-        public bool IsNestable() {
-            return true;
-        }
+    //    /**
+    //    * @see com.lowagie.text.Element#isNestable()
+    //    * @since   iText 2.0.8
+    //    */
+    //    public bool IsNestable() {
+    //        return true;
+    //    }
   
-        public override string ToString() {
-            return base.ToString();
-        }
-    }
+    //    public override string ToString() {
+    //        return base.ToString();
+    //    }
+    //}
 }

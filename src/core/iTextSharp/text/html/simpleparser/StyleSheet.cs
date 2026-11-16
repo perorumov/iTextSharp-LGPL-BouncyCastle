@@ -49,69 +49,69 @@ using System.Collections;
 
 namespace iTextSharp.text.html.simpleparser {
 
-    public class StyleSheet {
+    //public class StyleSheet {
         
-        public Hashtable classMap = new Hashtable();
-        public Hashtable tagMap = new Hashtable();
+    //    public Hashtable classMap = new Hashtable();
+    //    public Hashtable tagMap = new Hashtable();
         
-        /** Creates a new instance of StyleSheet */
-        public StyleSheet() {
-        }
+    //    /** Creates a new instance of StyleSheet */
+    //    public StyleSheet() {
+    //    }
         
-        public void ApplyStyle(String tag, Hashtable props) {
-            Hashtable map = (Hashtable)tagMap[tag.ToLower(System.Globalization.CultureInfo.InvariantCulture)];
-            Hashtable temp;
-            if (map != null) {
-                temp = new Hashtable(map);
-                foreach (DictionaryEntry dc in props)
-                    temp[dc.Key] = dc.Value;
-                foreach (DictionaryEntry dc in temp)
-                    props[dc.Key] = dc.Value;
-            }
-            String cm = (String)props[Markup.HTML_ATTR_CSS_CLASS];
-            if (cm == null)
-                return;
-            map = (Hashtable)classMap[cm.ToLower(System.Globalization.CultureInfo.InvariantCulture)];
-            if (map == null)
-                return;
-            props.Remove(Markup.HTML_ATTR_CSS_CLASS);
-            temp = new Hashtable(map);
-            foreach (DictionaryEntry dc in props)
-                temp[dc.Key] = dc.Value;
-            foreach (DictionaryEntry dc in temp)
-                props[dc.Key] = dc.Value;
-        }
+    //    public void ApplyStyle(String tag, Hashtable props) {
+    //        Hashtable map = (Hashtable)tagMap[tag.ToLower(System.Globalization.CultureInfo.InvariantCulture)];
+    //        Hashtable temp;
+    //        if (map != null) {
+    //            temp = new Hashtable(map);
+    //            foreach (DictionaryEntry dc in props)
+    //                temp[dc.Key] = dc.Value;
+    //            foreach (DictionaryEntry dc in temp)
+    //                props[dc.Key] = dc.Value;
+    //        }
+    //        String cm = (String)props[Markup.HTML_ATTR_CSS_CLASS];
+    //        if (cm == null)
+    //            return;
+    //        map = (Hashtable)classMap[cm.ToLower(System.Globalization.CultureInfo.InvariantCulture)];
+    //        if (map == null)
+    //            return;
+    //        props.Remove(Markup.HTML_ATTR_CSS_CLASS);
+    //        temp = new Hashtable(map);
+    //        foreach (DictionaryEntry dc in props)
+    //            temp[dc.Key] = dc.Value;
+    //        foreach (DictionaryEntry dc in temp)
+    //            props[dc.Key] = dc.Value;
+    //    }
         
-        private void ApplyMap(Hashtable map, Hashtable props) {
+    //    private void ApplyMap(Hashtable map, Hashtable props) {
             
-        }
+    //    }
         
-        public void LoadStyle(String style, Hashtable props) {
-            classMap[style.ToLower(System.Globalization.CultureInfo.InvariantCulture)] = props;
-        }
+    //    public void LoadStyle(String style, Hashtable props) {
+    //        classMap[style.ToLower(System.Globalization.CultureInfo.InvariantCulture)] = props;
+    //    }
 
-        public void LoadStyle(String style, String key, String value) {
-            style = style.ToLower(System.Globalization.CultureInfo.InvariantCulture);
-            Hashtable props = (Hashtable)classMap[style];
-            if (props == null) {
-                props = new Hashtable();
-                classMap[style] = props;
-            }
-            props[key] = value;
-        }
+    //    public void LoadStyle(String style, String key, String value) {
+    //        style = style.ToLower(System.Globalization.CultureInfo.InvariantCulture);
+    //        Hashtable props = (Hashtable)classMap[style];
+    //        if (props == null) {
+    //            props = new Hashtable();
+    //            classMap[style] = props;
+    //        }
+    //        props[key] = value;
+    //    }
         
-        public void LoadTagStyle(String tag, Hashtable props) {
-            tagMap[tag.ToLower(System.Globalization.CultureInfo.InvariantCulture)] = props;
-        }
+    //    public void LoadTagStyle(String tag, Hashtable props) {
+    //        tagMap[tag.ToLower(System.Globalization.CultureInfo.InvariantCulture)] = props;
+    //    }
 
-        public void LoadTagStyle(String tag, String key, String value) {
-            tag = tag.ToLower(System.Globalization.CultureInfo.InvariantCulture);
-            Hashtable props = (Hashtable)tagMap[tag];
-            if (props == null) {
-                props = new Hashtable();
-                tagMap[tag] = props;
-            }
-            props[key] = value;
-        }
-    }
+    //    public void LoadTagStyle(String tag, String key, String value) {
+    //        tag = tag.ToLower(System.Globalization.CultureInfo.InvariantCulture);
+    //        Hashtable props = (Hashtable)tagMap[tag];
+    //        if (props == null) {
+    //            props = new Hashtable();
+    //            tagMap[tag] = props;
+    //        }
+    //        props[key] = value;
+    //    }
+    //}
 }

@@ -60,43 +60,43 @@ namespace iTextSharp.text.html {
     * This interface is implemented by the peer of all the iText objects.
     */
 
-    public class HtmlPeer : XmlPeer {
+    //public class HtmlPeer : XmlPeer {
         
-    /**
-    * Creates a XmlPeer.
-    * @param name the iText name of the tag
-    * @param alias the Html name of the tag
-    */
+    ///**
+    //* Creates a XmlPeer.
+    //* @param name the iText name of the tag
+    //* @param alias the Html name of the tag
+    //*/
         
-        public HtmlPeer(String name, String alias) : base(name, alias.ToLower(CultureInfo.InvariantCulture)) {
-        }
+    //    public HtmlPeer(String name, String alias) : base(name, alias.ToLower(CultureInfo.InvariantCulture)) {
+    //    }
         
-    /**
-    * Sets an alias for an attribute.
-    *
-    * @param   name    the iText tagname
-    * @param   alias   the custom tagname
-    */
+    ///**
+    //* Sets an alias for an attribute.
+    //*
+    //* @param   name    the iText tagname
+    //* @param   alias   the custom tagname
+    //*/
         
-        public override void AddAlias(String name, String alias) {
-            attributeAliases.Add(alias.ToLower(CultureInfo.InvariantCulture), name);
-        }
+    //    public override void AddAlias(String name, String alias) {
+    //        attributeAliases.Add(alias.ToLower(CultureInfo.InvariantCulture), name);
+    //    }
 
-        /**
-        * @see com.lowagie.text.xml.XmlPeer#getAttributes(org.xml.sax.Attributes)
-        */
-        public override Properties GetAttributes(Hashtable attrs) {
-            Properties attributes = new Properties();
-            attributes.AddAll(attributeValues);
-            if (defaultContent != null) {
-                attributes[ElementTags.ITEXT] = defaultContent;
-            }
-            if (attrs != null) {
-                foreach (string key in attrs.Keys) {
-                    attributes.Add(GetName(key).ToLower(CultureInfo.InvariantCulture), (string)attrs[key]);
-                }
-            }
-            return attributes;
-        }
-    }
+    //    /**
+    //    * @see com.lowagie.text.xml.XmlPeer#getAttributes(org.xml.sax.Attributes)
+    //    */
+    //    public override Properties GetAttributes(Hashtable attrs) {
+    //        Properties attributes = new Properties();
+    //        attributes.AddAll(attributeValues);
+    //        if (defaultContent != null) {
+    //            attributes[ElementTags.ITEXT] = defaultContent;
+    //        }
+    //        if (attrs != null) {
+    //            foreach (string key in attrs.Keys) {
+    //                attributes.Add(GetName(key).ToLower(CultureInfo.InvariantCulture), (string)attrs[key]);
+    //            }
+    //        }
+    //        return attributes;
+    //    }
+    //}
 }

@@ -58,182 +58,182 @@ namespace iTextSharp.text.html {
     /// <summary>
     /// This class can be used to parse an XML file.
     /// </summary>
-    public class HtmlParser : XmlParser{
+    //public class HtmlParser : XmlParser{
     
-        /// <summary>
-        /// Constructs an XmlParser.
-        /// </summary>
-        public HtmlParser() {
-        }
+    //    /// <summary>
+    //    /// Constructs an XmlParser.
+    //    /// </summary>
+    //    public HtmlParser() {
+    //    }
     
-        /// <summary>
-        /// Parses a given file.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="file"></param>
-        public override void Go(IDocListener document, XmlDocument xDoc) {
-            parser = new ITextmyHtmlHandler(document);
-            parser.Parse(xDoc);
-        }
+    //    /// <summary>
+    //    /// Parses a given file.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="file"></param>
+    //    public override void Go(IDocListener document, XmlDocument xDoc) {
+    //        parser = new ITextmyHtmlHandler(document);
+    //        parser.Parse(xDoc);
+    //    }
     
-        /// <summary>
-        /// Parses a given file.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="file"></param>
-        public override void Go(IDocListener document, String file) {
-            parser = new ITextmyHtmlHandler(document);
-            parser.Parse(file);
-        }
+    //    /// <summary>
+    //    /// Parses a given file.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="file"></param>
+    //    public override void Go(IDocListener document, String file) {
+    //        parser = new ITextmyHtmlHandler(document);
+    //        parser.Parse(file);
+    //    }
     
-        /// <summary>
-        /// Parses a given XmlTextReader.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="reader"></param>
-        public override void Go(IDocListener document, XmlTextReader reader) {
-            parser = new ITextmyHtmlHandler(document);
-            parser.Parse(reader);
-        }
+    //    /// <summary>
+    //    /// Parses a given XmlTextReader.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="reader"></param>
+    //    public override void Go(IDocListener document, XmlTextReader reader) {
+    //        parser = new ITextmyHtmlHandler(document);
+    //        parser.Parse(reader);
+    //    }
     
-        /// <summary>
-        /// Parses a given file.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="file"></param>
-        /// <param name="tagmap"></param>
-        public override void Go(IDocListener document, XmlDocument xDoc, XmlDocument xTagmap) {
-            parser = new ITextmyHtmlHandler(document, new TagMap(xTagmap));
-            parser.Parse(xDoc);
-        }
+    //    /// <summary>
+    //    /// Parses a given file.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="file"></param>
+    //    /// <param name="tagmap"></param>
+    //    public override void Go(IDocListener document, XmlDocument xDoc, XmlDocument xTagmap) {
+    //        parser = new ITextmyHtmlHandler(document, new TagMap(xTagmap));
+    //        parser.Parse(xDoc);
+    //    }
     
-        /// <summary>
-        /// Parses a given XmlTextReader.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="reader"></param>
-        /// <param name="tagmap"></param>
-        public override void Go(IDocListener document, XmlTextReader reader, String tagmap) {
-            parser = new ITextmyHtmlHandler(document, new TagMap(tagmap));
-            parser.Parse(reader);
-        }
+    //    /// <summary>
+    //    /// Parses a given XmlTextReader.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="reader"></param>
+    //    /// <param name="tagmap"></param>
+    //    public override void Go(IDocListener document, XmlTextReader reader, String tagmap) {
+    //        parser = new ITextmyHtmlHandler(document, new TagMap(tagmap));
+    //        parser.Parse(reader);
+    //    }
     
-        /// <summary>
-        /// Parses a given file.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="file"></param>
-        /// <param name="tagmap"></param>
-        public override void Go(IDocListener document, String file, String tagmap) {
-            parser = new ITextmyHtmlHandler(document, new TagMap(tagmap));
-            parser.Parse(file);
-        }
+    //    /// <summary>
+    //    /// Parses a given file.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="file"></param>
+    //    /// <param name="tagmap"></param>
+    //    public override void Go(IDocListener document, String file, String tagmap) {
+    //        parser = new ITextmyHtmlHandler(document, new TagMap(tagmap));
+    //        parser.Parse(file);
+    //    }
     
-        /// <summary>
-        /// Parses a given file.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="file"></param>
-        /// <param name="tagmap"></param>
-        public override void Go(IDocListener document, String file, Hashtable tagmap) {
-            parser = new ITextmyHtmlHandler(document, tagmap);
-            parser.Parse(file);
-        }
+    //    /// <summary>
+    //    /// Parses a given file.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="file"></param>
+    //    /// <param name="tagmap"></param>
+    //    public override void Go(IDocListener document, String file, Hashtable tagmap) {
+    //        parser = new ITextmyHtmlHandler(document, tagmap);
+    //        parser.Parse(file);
+    //    }
     
-        /// <summary>
-        /// Parses a given XmlTextReader.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="reader"></param>
-        /// <param name="tagmap"></param>
-        public override void Go(IDocListener document, XmlTextReader reader, Hashtable tagmap) {
-            parser = new ITextmyHtmlHandler(document, tagmap);
-            parser.Parse(reader);
-        }
+    //    /// <summary>
+    //    /// Parses a given XmlTextReader.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="reader"></param>
+    //    /// <param name="tagmap"></param>
+    //    public override void Go(IDocListener document, XmlTextReader reader, Hashtable tagmap) {
+    //        parser = new ITextmyHtmlHandler(document, tagmap);
+    //        parser.Parse(reader);
+    //    }
     
-        /// <summary>
-        /// Parses a given file.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="file"></param>
-        public new static void Parse(IDocListener document, XmlDocument xDoc) {
-            HtmlParser p = new HtmlParser();
-            p.Go(document, xDoc);
-        }
+    //    /// <summary>
+    //    /// Parses a given file.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="file"></param>
+    //    public new static void Parse(IDocListener document, XmlDocument xDoc) {
+    //        HtmlParser p = new HtmlParser();
+    //        p.Go(document, xDoc);
+    //    }
     
-        /// <summary>
-        /// Parses a given file.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="file"></param>
-        public new static void Parse(IDocListener document, String file) {
-            HtmlParser p = new HtmlParser();
-            p.Go(document, file);
-        }
+    //    /// <summary>
+    //    /// Parses a given file.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="file"></param>
+    //    public new static void Parse(IDocListener document, String file) {
+    //        HtmlParser p = new HtmlParser();
+    //        p.Go(document, file);
+    //    }
     
-        /// <summary>
-        /// Parses a given XmlTextReader.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="reader"></param>
-        public new static void Parse(IDocListener document, XmlTextReader reader) {
-            HtmlParser p = new HtmlParser();
-            p.Go(document, reader);
-        }
+    //    /// <summary>
+    //    /// Parses a given XmlTextReader.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="reader"></param>
+    //    public new static void Parse(IDocListener document, XmlTextReader reader) {
+    //        HtmlParser p = new HtmlParser();
+    //        p.Go(document, reader);
+    //    }
     
-        /// <summary>
-        /// Parses a given file.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="file"></param>
-        /// <param name="tagmap"></param>
-        public new static void Parse(IDocListener document, XmlDocument xDoc, XmlDocument xTagmap) {
-            HtmlParser p = new HtmlParser();
-            p.Go(document, xDoc, xTagmap);
-        }
+    //    /// <summary>
+    //    /// Parses a given file.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="file"></param>
+    //    /// <param name="tagmap"></param>
+    //    public new static void Parse(IDocListener document, XmlDocument xDoc, XmlDocument xTagmap) {
+    //        HtmlParser p = new HtmlParser();
+    //        p.Go(document, xDoc, xTagmap);
+    //    }
     
-        /// <summary>
-        /// Parses a given file.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="file"></param>
-        /// <param name="tagmap"></param>
-        public new static void Parse(IDocListener document, String file, String tagmap) {
-            HtmlParser p = new HtmlParser();
-            p.Go(document, file, tagmap);
-        }
+    //    /// <summary>
+    //    /// Parses a given file.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="file"></param>
+    //    /// <param name="tagmap"></param>
+    //    public new static void Parse(IDocListener document, String file, String tagmap) {
+    //        HtmlParser p = new HtmlParser();
+    //        p.Go(document, file, tagmap);
+    //    }
     
-        /// <summary>
-        /// Parses a given file.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="file"></param>
-        /// <param name="tagmap"></param>
-        public new static void Parse(IDocListener document, String file, Hashtable tagmap) {
-            HtmlParser p = new HtmlParser();
-            p.Go(document, file, tagmap);
-        }
+    //    /// <summary>
+    //    /// Parses a given file.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="file"></param>
+    //    /// <param name="tagmap"></param>
+    //    public new static void Parse(IDocListener document, String file, Hashtable tagmap) {
+    //        HtmlParser p = new HtmlParser();
+    //        p.Go(document, file, tagmap);
+    //    }
     
-        /// <summary>
-        /// Parses a given XmlTextReader.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="reader"></param>
-        /// <param name="tagmap"></param>
-        public new static void Parse(IDocListener document, XmlTextReader reader, String tagmap) {
-            HtmlParser p = new HtmlParser();
-            p.Go(document, reader, tagmap);
-        }
+    //    /// <summary>
+    //    /// Parses a given XmlTextReader.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="reader"></param>
+    //    /// <param name="tagmap"></param>
+    //    public new static void Parse(IDocListener document, XmlTextReader reader, String tagmap) {
+    //        HtmlParser p = new HtmlParser();
+    //        p.Go(document, reader, tagmap);
+    //    }
     
-        /// <summary>
-        /// Parses a given XmlTextReader.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="reader"></param>
-        /// <param name="tagmap"></param>
-        public new static void Parse(IDocListener document, XmlTextReader reader, Hashtable tagmap) {
-            HtmlParser p = new HtmlParser();
-            p.Go(document, reader, tagmap);
-        }
-    }
+    //    /// <summary>
+    //    /// Parses a given XmlTextReader.
+    //    /// </summary>
+    //    /// <param name="document"></param>
+    //    /// <param name="reader"></param>
+    //    /// <param name="tagmap"></param>
+    //    public new static void Parse(IDocListener document, XmlTextReader reader, Hashtable tagmap) {
+    //        HtmlParser p = new HtmlParser();
+    //        p.Go(document, reader, tagmap);
+    //    }
+    //}
 }

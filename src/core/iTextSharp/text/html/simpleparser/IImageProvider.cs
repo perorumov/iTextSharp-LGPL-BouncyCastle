@@ -49,7 +49,7 @@ using iTextSharp.text;
  */
 
 namespace iTextSharp.text.html.simpleparser {
-    public interface IImageProvider {
-        Image GetImage(String src, Hashtable h, ChainedProperties cprops, IDocListener doc);
-    }
+    //public interface IImageProvider {
+    //    Image GetImage(String src, Hashtable h, ChainedProperties cprops, IDocListener doc);
+    //}
 }

@@ -49,87 +49,87 @@ using System.Collections;
 
 namespace iTextSharp.text.html.simpleparser {
 
-public class ChainedProperties {
+//public class ChainedProperties {
     
-        public static int[] fontSizes = {8, 10, 12, 14, 18, 24, 36};
-        public ArrayList chain = new ArrayList();
+//        public static int[] fontSizes = {8, 10, 12, 14, 18, 24, 36};
+//        public ArrayList chain = new ArrayList();
         
-        /** Creates a new instance of ChainedProperties */
-        public ChainedProperties() {
-        }
+//        /** Creates a new instance of ChainedProperties */
+//        public ChainedProperties() {
+//        }
         
-        public String this[String key] {
-            get {
-                for (int k = chain.Count - 1; k >= 0; --k) {
-                    Object[] obj = (Object[])chain[k];
-                    Hashtable prop = (Hashtable)obj[1];
-                    String ret = (String)prop[key];
-                    if (ret != null)
-                        return ret;
-                }
-                return null;
-            }
-        }
+//        public String this[String key] {
+//            get {
+//                for (int k = chain.Count - 1; k >= 0; --k) {
+//                    Object[] obj = (Object[])chain[k];
+//                    Hashtable prop = (Hashtable)obj[1];
+//                    String ret = (String)prop[key];
+//                    if (ret != null)
+//                        return ret;
+//                }
+//                return null;
+//            }
+//        }
         
-        public bool HasProperty(String key) {
-            for (int k = chain.Count - 1; k >= 0; --k) {
-                Object[] obj = (Object[])chain[k];
-                Hashtable prop = (Hashtable)obj[1];
-                if (prop.ContainsKey(key))
-                    return true;
-            }
-            return false;
-        }
+//        public bool HasProperty(String key) {
+//            for (int k = chain.Count - 1; k >= 0; --k) {
+//                Object[] obj = (Object[])chain[k];
+//                Hashtable prop = (Hashtable)obj[1];
+//                if (prop.ContainsKey(key))
+//                    return true;
+//            }
+//            return false;
+//        }
         
-        public void AddToChain(String key, Hashtable prop) {
-            // adjust the font size
-            String value = (String)prop[ElementTags.SIZE];
-            if (value != null) {
-                if (value.EndsWith("pt")) {
-                    prop[ElementTags.SIZE] = value.Substring(0, value.Length - 2);
-                }
-                else {
-                    int s = 0;
-                    if (value.StartsWith("+") || value.StartsWith("-")) {
-                        String old = this["basefontsize"];
-                        if (old == null)
-                            old = "12";
-                        float f = float.Parse(old, System.Globalization.NumberFormatInfo.InvariantInfo);
-                        int c = (int)f;
-                        for (int k = fontSizes.Length - 1; k >= 0; --k) {
-                            if (c >= fontSizes[k]) {
-                                s = k;
-                                break;
-                            }
-                        }
-                        int inc = int.Parse(value.StartsWith("+") ? value.Substring(1) : value);
-                        s += inc;
-                    }
-                    else {
-                        try {
-                            s = int.Parse(value) - 1;
-                        }
-                        catch {
-                            s = 0;
-                        }
-                    }
-                    if (s < 0)
-                        s = 0;
-                    else if (s >= fontSizes.Length)
-                        s = fontSizes.Length - 1;
-                    prop[ElementTags.SIZE] = fontSizes[s].ToString();
-                }
-            }
-            chain.Add(new Object[]{key, prop});
-        }
+//        public void AddToChain(String key, Hashtable prop) {
+//            // adjust the font size
+//            String value = (String)prop[ElementTags.SIZE];
+//            if (value != null) {
+//                if (value.EndsWith("pt")) {
+//                    prop[ElementTags.SIZE] = value.Substring(0, value.Length - 2);
+//                }
+//                else {
+//                    int s = 0;
+//                    if (value.StartsWith("+") || value.StartsWith("-")) {
+//                        String old = this["basefontsize"];
+//                        if (old == null)
+//                            old = "12";
+//                        float f = float.Parse(old, System.Globalization.NumberFormatInfo.InvariantInfo);
+//                        int c = (int)f;
+//                        for (int k = fontSizes.Length - 1; k >= 0; --k) {
+//                            if (c >= fontSizes[k]) {
+//                                s = k;
+//                                break;
+//                            }
+//                        }
+//                        int inc = int.Parse(value.StartsWith("+") ? value.Substring(1) : value);
+//                        s += inc;
+//                    }
+//                    else {
+//                        try {
+//                            s = int.Parse(value) - 1;
+//                        }
+//                        catch {
+//                            s = 0;
+//                        }
+//                    }
+//                    if (s < 0)
+//                        s = 0;
+//                    else if (s >= fontSizes.Length)
+//                        s = fontSizes.Length - 1;
+//                    prop[ElementTags.SIZE] = fontSizes[s].ToString();
+//                }
+//            }
+//            chain.Add(new Object[]{key, prop});
+//        }
         
-        public void RemoveChain(String key) {
-            for (int k = chain.Count - 1; k >= 0; --k) {
-                if (key.Equals(((Object[])chain[k])[0])) {
-                    chain.RemoveAt(k);
-                    return;
-                }
-            }
-        }
-    }
+//        public void RemoveChain(String key) {
+//            for (int k = chain.Count - 1; k >= 0; --k) {
+//                if (key.Equals(((Object[])chain[k])[0])) {
+//                    chain.RemoveAt(k);
+//                    return;
+//                }
+//            }
+//        }
+//    }
 }

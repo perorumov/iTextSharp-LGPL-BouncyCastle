@@ -116,9 +116,11 @@ namespace iTextSharp.text.xml {
         * @throws DocumentException
         * @throws IOException
         */
-        public ITextHandler(IDocListener document, HtmlTagMap myTags) : this(document) {
-            this.myTags = myTags;
-        }
+        
+        //removed. No html parsing here
+        //public ITextHandler(IDocListener document, HtmlTagMap myTags) : this(document) {
+        //    this.myTags = myTags;
+        //}
 
         /**
         * @param document
@@ -127,9 +129,11 @@ namespace iTextSharp.text.xml {
         * @throws DocumentException
         * @throws IOException
         */
-        public ITextHandler(IDocListener document, HtmlTagMap myTags, BaseFont bf) : this(document, myTags) {
-            this.bf = bf;
-        }
+        
+        //removed. No html parsing here
+        //public ITextHandler(IDocListener document, HtmlTagMap myTags, BaseFont bf) : this(document, myTags) {
+        //    this.bf = bf;
+        //}
 
         /**
         * @param document

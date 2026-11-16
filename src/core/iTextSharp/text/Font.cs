@@ -490,24 +490,25 @@ namespace iTextSharp.text {
         /// <returns>the corresponding value</returns>
         public static int GetStyleValue(string style) {
             int s = 0;
-            if (style.IndexOf(Markup.CSS_VALUE_NORMAL) != -1) {
-                s |= NORMAL;
-            }
-            if (style.IndexOf(Markup.CSS_VALUE_BOLD) != -1) {
-                s |= BOLD;
-            }
-            if (style.IndexOf(Markup.CSS_VALUE_ITALIC) != -1) {
-                s |= ITALIC;
-            }
-            if (style.IndexOf(Markup.CSS_VALUE_OBLIQUE) != -1) {
-                s |= ITALIC;
-            }
-            if (style.IndexOf(Markup.CSS_VALUE_UNDERLINE) != -1) {
-                s |= UNDERLINE;
-            }
-            if (style.IndexOf(Markup.CSS_VALUE_LINETHROUGH) != -1) {
-                s |= STRIKETHRU;
-            }
+            //no css and markup allowed
+            //if (style.IndexOf(Markup.CSS_VALUE_NORMAL) != -1) {
+            //    s |= NORMAL;
+            //}
+            //if (style.IndexOf(Markup.CSS_VALUE_BOLD) != -1) {
+            //    s |= BOLD;
+            //}
+            //if (style.IndexOf(Markup.CSS_VALUE_ITALIC) != -1) {
+            //    s |= ITALIC;
+            //}
+            //if (style.IndexOf(Markup.CSS_VALUE_OBLIQUE) != -1) {
+            //    s |= ITALIC;
+            //}
+            //if (style.IndexOf(Markup.CSS_VALUE_UNDERLINE) != -1) {
+            //    s |= UNDERLINE;
+            //}
+            //if (style.IndexOf(Markup.CSS_VALUE_LINETHROUGH) != -1) {
+            //    s |= STRIKETHRU;
+            //}
             return s;
         }
     

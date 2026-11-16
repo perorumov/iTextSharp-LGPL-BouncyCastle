@@ -49,7 +49,7 @@ using iTextSharp.text;
  * http://www.lowagie.com/iText/
  */
 namespace iTextSharp.text.html.simpleparser {
-    public interface IImg {
-        bool Process(Image img, Hashtable h, ChainedProperties cprops, IDocListener doc);
-    }
+    //public interface IImg {
+    //    bool Process(Image img, Hashtable h, ChainedProperties cprops, IDocListener doc);
+    //}
 }

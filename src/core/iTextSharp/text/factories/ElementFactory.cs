@@ -96,18 +96,21 @@ namespace iTextSharp.text.factories {
             if (value != null) {
                 chunk.SetTextRise(float.Parse(value, System.Globalization.NumberFormatInfo.InvariantInfo));
             }
-            value = attributes[Markup.CSS_KEY_VERTICALALIGN];
-            if (value != null && value.EndsWith("%")) {
-                float p = float.Parse(value.Substring(0, value.Length - 1), System.Globalization.NumberFormatInfo.InvariantInfo) / 100f;
-                chunk.SetTextRise(p * chunk.Font.Size);
-            }
+
+            //no css and markup allowed
+            //value = attributes[Markup.CSS_KEY_VERTICALALIGN];
+            //if (value != null && value.EndsWith("%")) {
+            //    float p = float.Parse(value.Substring(0, value.Length - 1), System.Globalization.NumberFormatInfo.InvariantInfo) / 100f;
+            //    chunk.SetTextRise(p * chunk.Font.Size);
+            //}
             value = attributes[ElementTags.GENERICTAG];
             if (value != null) {
                 chunk.SetGenericTag(value);
             }
-            value = attributes[ElementTags.BACKGROUNDCOLOR];
+            //no css and markup allowed
+            //value = attributes[ElementTags.BACKGROUNDCOLOR];
             if (value != null) {
-                chunk.SetBackground(Markup.DecodeColor(value));
+                //chunk.SetBackground(Markup.DecodeColor(value));
             }
             return chunk;
         }
@@ -120,9 +123,11 @@ namespace iTextSharp.text.factories {
             if (value != null) {
                 phrase.Leading = float.Parse(value, System.Globalization.NumberFormatInfo.InvariantInfo);
             }
-            value = attributes[Markup.CSS_KEY_LINEHEIGHT];
+            //no markup allowed
+            //value = attributes[Markup.CSS_KEY_LINEHEIGHT];
             if (value != null) {
-                phrase.Leading = Markup.ParseLength(value, Markup.DEFAULT_FONT_SIZE);
+                //no markup allowed
+                //phrase.Leading = Markup.ParseLength(value, Markup.DEFAULT_FONT_SIZE);
             }
             value = attributes[ElementTags.ITEXT];
             if (value != null) {
@@ -358,9 +363,10 @@ namespace iTextSharp.text.factories {
                 if (b != null) blue = int.Parse(b);
                 rect.BorderColor = new Color(red, green, blue);
             }
-            else {
-                rect.BorderColor = Markup.DecodeColor(attributes[ElementTags.BORDERCOLOR]);
-            }
+            //no markup allowed
+            //else {
+            //    rect.BorderColor = Markup.DecodeColor(attributes[ElementTags.BORDERCOLOR]);
+            //}
             r = (String)attributes.Remove(ElementTags.BGRED);
             g = (String)attributes.Remove(ElementTags.BGGREEN);
             b = (String)attributes.Remove(ElementTags.BGBLUE);
@@ -375,7 +381,8 @@ namespace iTextSharp.text.factories {
                 rect.BackgroundColor = new Color(red, green, blue);
             }
             else if (value != null) {
-                rect.BackgroundColor = Markup.DecodeColor(value);
+                //no markup allowed
+                //rect.BackgroundColor = Markup.DecodeColor(value);
             }
             else {
                 value = attributes[ElementTags.GRAYFILL];

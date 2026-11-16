@@ -213,9 +213,10 @@ namespace iTextSharp.text.pdf.hyphenation {
                 if (token.Length > 0) {
                     exception.Add(token.ToString());
                 }
-                exception.Add(new Hyphen((String)h[HtmlTags.PRE],
-                                                (String)h["no"],
-                                                (String)h["post"]));
+                //no css and markup allowed
+                //exception.Add(new Hyphen((String)h[HtmlTags.PRE],
+                //                                (String)h["no"],
+                //                                (String)h["post"]));
                 currElement = ELEM_HYPHEN;
             }
             token.Length = 0;
