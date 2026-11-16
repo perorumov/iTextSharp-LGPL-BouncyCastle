@@ -191,7 +191,7 @@ namespace iTextSharp.text.pdf.codec {
         public static Image GetImage(Uri url) {
             Stream isp = null;
             try {
-                isp = WebRequest.Create(url).GetResponse().GetResponseStream();
+                isp = iTextSharp.text.SafeUrlFetcher.GetStream(url);
                 Image img = GetImage(isp);
                 img.Url = url;
                 return img;
@@ -219,7 +219,9 @@ namespace iTextSharp.text.pdf.codec {
         * @return the image
         */    
         public static Image GetImage(String file) {
-            return GetImage(Utilities.ToURL(file));
+            if (File.Exists(file))
+                return GetImage(File.ReadAllBytes(file));
+            return GetImage(iTextSharp.text.SafeUrlFetcher.Get(Utilities.ToURL(file)));
         }
         
         /** Reads a PNG from a byte array.

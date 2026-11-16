@@ -184,38 +184,17 @@ namespace iTextSharp.text.pdf {
         * @return - byte[] - TSA response, raw bytes (RFC 3161 encoded)
         */
         protected internal virtual byte[] GetTSAResponse(byte[] requestBytes) {
-            HttpWebRequest con = (HttpWebRequest)WebRequest.Create(tsaURL);
-            con.ContentLength = requestBytes.Length;
-            con.ContentType = "application/timestamp-query";
-            con.Method = "POST";
+            string authorization = null;
             if ((tsaUsername != null) && !tsaUsername.Equals("") ) {
                 string authInfo = tsaUsername + ":" + tsaPassword;
                 authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
-                con.Headers["Authorization"] = "Basic " + authInfo;
+                authorization = "Basic " + authInfo;
             }
-            Stream outp = con.GetRequestStream();
-            outp.Write(requestBytes, 0, requestBytes.Length);
-            outp.Close();
-            HttpWebResponse response = (HttpWebResponse)con.GetResponse();
-            if (response.StatusCode != HttpStatusCode.OK)
-                throw new IOException("Invalid HTTP response: " + (int)response.StatusCode);
-            Stream inp = response.GetResponseStream();
-
-            MemoryStream baos = new MemoryStream();
-            byte[] buffer = new byte[1024];
-            int bytesRead = 0;
-            while ((bytesRead = inp.Read(buffer, 0, buffer.Length)) > 0) {
-                baos.Write(buffer, 0, bytesRead);
-            }
-            inp.Close();
-            response.Close();
-            byte[] respBytes = baos.ToArray();
-            
-            String encoding = response.ContentEncoding;
-            if (encoding != null && Util.EqualsIgnoreCase(encoding, "base64")) {
-                respBytes = Convert.FromBase64String(Encoding.ASCII.GetString(respBytes));
-            }
-            return respBytes;
-        }    
+            string encoding;
+            byte[] responseBytes = iTextSharp.text.SafeUrlFetcher.Post(new Uri(tsaURL), "application/timestamp-query", null, requestBytes, authorization, out encoding);
+            if (encoding != null && Util.EqualsIgnoreCase(encoding, "base64"))
+                responseBytes = Convert.FromBase64String(Encoding.ASCII.GetString(responseBytes));
+            return responseBytes;
+        }
     }
 }

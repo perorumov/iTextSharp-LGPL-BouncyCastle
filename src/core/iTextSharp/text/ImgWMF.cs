@@ -90,7 +90,7 @@ namespace iTextSharp.text {
         /// Constructs an ImgWMF-object, using a filename.
         /// </summary>
         /// <param name="filename">a string-representation of the file that contains the image.</param>
-        public ImgWMF(string filename) : this(Utilities.ToURL(filename)) {}
+        public ImgWMF(string filename) : this(File.Exists(filename) ? File.ReadAllBytes(filename) : SafeUrlFetcher.Get(Utilities.ToURL(filename))) {}
     
         /// <summary>
         /// Constructs an ImgWMF-object from memory.
@@ -112,8 +112,7 @@ namespace iTextSharp.text {
             try {
                 string errorID;
                 if (rawData == null){
-                    WebRequest w = WebRequest.Create(url);
-                    istr = w.GetResponse().GetResponseStream();
+                    istr = SafeUrlFetcher.GetStream(url);
                     errorID = url.ToString();
                 }
                 else{
@@ -157,8 +156,7 @@ namespace iTextSharp.text {
             Stream istr = null;
             try {
                 if (rawData == null){
-                    WebRequest w = WebRequest.Create(url);
-                    istr = w.GetResponse().GetResponseStream();
+                    istr = SafeUrlFetcher.GetStream(url);
                 }
                 else{
                     istr = new MemoryStream(rawData);

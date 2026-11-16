@@ -8,3 +8,5 @@ Also you can use Bouncy Castle as nuget package instead of referenced sub module
 ## Changes
 
 In this version complete html parser and xmp, xml and simmilar parsers are stripped. Using this version you can no longer utilize html and xml functionalities.
+
+Remote URL resources are fetched only over HTTPS. Hosts resolving to non-public IP addresses are rejected, redirects are validated, requests have a 15-second timeout, and response bodies are limited to 64 MiB. Explicit local filename APIs remain available; `file:` URLs and non-HTTPS URLs are rejected.

@@ -69,7 +69,10 @@ namespace iTextSharp.text.pdf {
     * @author Kazuya Ujihara
     */
     public class PdfReader : IPdfViewerPreferences {
-        
+
+        private const int MAX_DECODED_STREAM_SIZE = 64 * 1024 * 1024;
+        private const int MAX_PREDICTOR_ROW_SIZE = 16 * 1024 * 1024;
+
         static PdfName[] pageInhCandidates = {
             PdfName.MEDIABOX, PdfName.ROTATE, PdfName.RESOURCES, PdfName.CROPBOX
         };
@@ -113,6 +116,7 @@ namespace iTextSharp.text.pdf {
         private int objGen;
         private int fileLength;
         private bool hybridXref;
+        private Hashtable xrefOffsets;
         private int lastXrefPartial = -1;
         private bool partial;
         private PRIndirectReference cryptoRef;
@@ -476,6 +480,9 @@ namespace iTextSharp.text.pdf {
                 try {
                     ReadXref();
                 }
+                catch (XrefCycleException) {
+                    throw;
+                }
                 catch (Exception e) {
                     try {
                         rebuilt = true;
@@ -522,6 +529,9 @@ namespace iTextSharp.text.pdf {
                 pdfVersion = tokens.CheckPdfHeader();
                 try {
                     ReadXref();
+                }
+                catch (XrefCycleException) {
+                    throw;
                 }
                 catch (Exception e) {
                     try {
@@ -1210,9 +1220,23 @@ namespace iTextSharp.text.pdf {
             }
         }
         
+        private sealed class XrefCycleException : InvalidPdfException {
+            public XrefCycleException() : base("Cross-reference section contains a repeated offset.") {
+            }
+        }
+
+        private void MarkXrefOffset(int offset) {
+            if (xrefOffsets == null)
+                xrefOffsets = new Hashtable();
+            if (xrefOffsets.ContainsKey(offset))
+                throw new XrefCycleException();
+            xrefOffsets[offset] = true;
+        }
+
         protected internal void ReadXref() {
             hybridXref = false;
             newXrefType = false;
+            xrefOffsets = new Hashtable();
             tokens.Seek(tokens.Startxref);
             tokens.NextToken();
             if (!tokens.StringValue.Equals("startxref"))
@@ -1229,8 +1253,14 @@ namespace iTextSharp.text.pdf {
                     return;
                 }
             }
-            catch {}
+            catch (XrefCycleException) {
+                throw;
+            }
+            catch {
+            }
             xref = null;
+            xrefOffsets = new Hashtable();
+            MarkXrefOffset(startxref);
             tokens.Seek(startxref);
             trailer = ReadXrefSection();
             PdfDictionary trailer2 = trailer;
@@ -1238,7 +1268,9 @@ namespace iTextSharp.text.pdf {
                 PdfNumber prev = (PdfNumber)trailer2.Get(PdfName.PREV);
                 if (prev == null)
                     break;
-                tokens.Seek(prev.IntValue);
+                int prevOffset = prev.IntValue;
+                MarkXrefOffset(prevOffset);
+                tokens.Seek(prevOffset);
                 trailer2 = ReadXrefSection();
             }
         }
@@ -1317,6 +1349,7 @@ namespace iTextSharp.text.pdf {
         }
         
         protected internal bool ReadXRefStream(int ptr) {
+            MarkXrefOffset(ptr);
             tokens.Seek(ptr);
             int thisStream = 0;
             if (!tokens.NextToken())
@@ -1631,6 +1664,8 @@ namespace iTextSharp.text.pdf {
         public static byte[] DecodePredictor(byte[] inp, PdfObject dicPar) {
             if (dicPar == null || !dicPar.IsDictionary())
                 return inp;
+            if (inp.Length > MAX_DECODED_STREAM_SIZE)
+                throw new InvalidPdfException("Decoded PDF stream exceeds the maximum permitted size.");
             PdfDictionary dic = (PdfDictionary)dicPar;
             PdfObject obj = GetPdfObject(dic.Get(PdfName.PREDICTOR));
             if (obj == null || !obj.IsNumber())
@@ -1638,22 +1673,40 @@ namespace iTextSharp.text.pdf {
             int predictor = ((PdfNumber)obj).IntValue;
             if (predictor < 10)
                 return inp;
+            if (predictor > 15)
+                throw new InvalidPdfException("Invalid PNG predictor value.");
             int width = 1;
             obj = GetPdfObject(dic.Get(PdfName.COLUMNS));
-            if (obj != null && obj.IsNumber())
+            if (obj != null) {
+                if (!obj.IsNumber())
+                    throw new InvalidPdfException("Invalid predictor column count.");
                 width = ((PdfNumber)obj).IntValue;
+            }
             int colors = 1;
             obj = GetPdfObject(dic.Get(PdfName.COLORS));
-            if (obj != null && obj.IsNumber())
+            if (obj != null) {
+                if (!obj.IsNumber())
+                    throw new InvalidPdfException("Invalid predictor color count.");
                 colors = ((PdfNumber)obj).IntValue;
+            }
             int bpc = 8;
             obj = GetPdfObject(dic.Get(PdfName.BITSPERCOMPONENT));
-            if (obj != null && obj.IsNumber())
+            if (obj != null) {
+                if (!obj.IsNumber())
+                    throw new InvalidPdfException("Invalid predictor bits per component.");
                 bpc = ((PdfNumber)obj).IntValue;
+            }
+            if (width <= 0 || colors <= 0 || (bpc != 1 && bpc != 2 && bpc != 4 && bpc != 8 && bpc != 16))
+                throw new InvalidPdfException("Invalid predictor parameters.");
+            long rowBits = (long)colors * width;
+            if (rowBits > (long)MAX_PREDICTOR_ROW_SIZE * 8 / bpc)
+                throw new InvalidPdfException("Predictor row exceeds the maximum permitted size.");
+            int bytesPerPixel = (int)Math.Max(1L, ((long)colors * bpc + 7) / 8);
+            int bytesPerRow = (int)((rowBits * bpc + 7) / 8);
+            if (bytesPerPixel > MAX_PREDICTOR_ROW_SIZE)
+                throw new InvalidPdfException("Predictor row exceeds the maximum permitted size.");
             MemoryStream dataStream = new MemoryStream(inp);
-            MemoryStream fout = new MemoryStream(inp.Length);
-            int bytesPerPixel = colors * bpc / 8;
-            int bytesPerRow = (colors*width*bpc + 7)/8;
+            MemoryStream fout = new MemoryStream();
             byte[] curr = new byte[bytesPerRow];
             byte[] prior = new byte[bytesPerRow];
             
@@ -1729,8 +1782,10 @@ namespace iTextSharp.text.pdf {
                         // Error -- uknown filter type
                         throw new Exception("PNG filter unknown.");
                 }
+                if (fout.Length + curr.Length > MAX_DECODED_STREAM_SIZE)
+                    throw new InvalidPdfException("Decoded PDF stream exceeds the maximum permitted size.");
                 fout.Write(curr, 0, curr.Length);
-                
+
                 // Swap curr and prior
                 byte[] tmp = prior;
                 prior = curr;
@@ -1745,6 +1800,8 @@ namespace iTextSharp.text.pdf {
         * @return the decoded data
         */    
         public static byte[] FlateDecode(byte[] inp, bool strict) {
+            if (inp.Length > MAX_DECODED_STREAM_SIZE)
+                throw new InvalidPdfException("Encoded PDF stream exceeds the maximum permitted size.");
             MemoryStream stream = new MemoryStream(inp);
             ZInflaterInputStream zip = new ZInflaterInputStream(stream);
             MemoryStream outp = new MemoryStream();
@@ -1752,11 +1809,16 @@ namespace iTextSharp.text.pdf {
             try {
                 int n;
                 while ((n = zip.Read(b, 0, b.Length)) > 0) {
+                    if (outp.Length + n > MAX_DECODED_STREAM_SIZE)
+                        throw new InvalidPdfException("Decoded PDF stream exceeds the maximum permitted size.");
                     outp.Write(b, 0, n);
                 }
                 zip.Close();
                 outp.Close();
                 return outp.ToArray();
+            }
+            catch (InvalidPdfException) {
+                throw;
             }
             catch {
                 if (strict)
@@ -2108,11 +2170,19 @@ namespace iTextSharp.text.pdf {
         public static byte[] GetStreamBytesRaw(PRStream stream, RandomAccessFileOrArray file) {
             PdfReader reader = stream.Reader;
             byte[] b;
-            if (stream.Offset < 0)
+            if (stream.Offset < 0) {
                 b = stream.GetBytes();
+                if (b == null || b.Length > MAX_DECODED_STREAM_SIZE)
+                    throw new InvalidPdfException("PDF stream exceeds the maximum permitted size.");
+            }
             else {
-                b = new byte[stream.Length];
-                file.Seek(stream.Offset);
+                int fileLength = file.Length;
+                int offset = stream.Offset;
+                int length = stream.Length;
+                if (length < 0 || length > MAX_DECODED_STREAM_SIZE || offset < 0 || offset > fileLength || length > fileLength - offset)
+                    throw new InvalidPdfException("PDF stream length is outside the file or exceeds the maximum permitted size.");
+                b = new byte[length];
+                file.Seek(offset);
                 file.ReadFully(b);
                 PdfEncryption decrypt = reader.Decrypt;
                 if (decrypt != null) {

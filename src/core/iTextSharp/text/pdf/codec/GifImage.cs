@@ -111,7 +111,7 @@ namespace iTextSharp.text.pdf.codec {
             fromUrl = url;
             Stream isp = null;
             try {
-                isp = WebRequest.Create(url).GetResponse().GetResponseStream();
+                isp = iTextSharp.text.SafeUrlFetcher.GetStream(url);
                 Process(isp);
             }
             finally {
@@ -125,7 +125,7 @@ namespace iTextSharp.text.pdf.codec {
         * @param file the file
         * @throws IOException on error
         */    
-        public GifImage(String file) : this(Utilities.ToURL(file)) {
+        public GifImage(String file) : this(File.Exists(file) ? File.ReadAllBytes(file) : iTextSharp.text.SafeUrlFetcher.Get(Utilities.ToURL(file))) {
         }
         
         /** Reads gif images from a byte array.

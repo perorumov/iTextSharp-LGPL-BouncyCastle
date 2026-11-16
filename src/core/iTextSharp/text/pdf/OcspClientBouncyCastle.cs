@@ -120,21 +120,9 @@ namespace iTextSharp.text.pdf {
         public byte[] GetEncoded() {
             OcspReq request = GenerateOCSPRequest(rootCert, checkCert.SerialNumber);
             byte[] array = request.GetEncoded();
-            HttpWebRequest con = (HttpWebRequest)WebRequest.Create(url);
-            con.ContentLength = array.Length;
-            con.ContentType = "application/ocsp-request";
-            con.Accept = "application/ocsp-response";
-            con.Method = "POST";
-            Stream outp = con.GetRequestStream();
-            outp.Write(array, 0, array.Length);
-            outp.Close();
-            HttpWebResponse response = (HttpWebResponse)con.GetResponse();
-            if (response.StatusCode != HttpStatusCode.OK)
-                throw new IOException("Invalid HTTP response: " + (int)response.StatusCode);
-            Stream inp = response.GetResponseStream();
-            OcspResp ocspResponse = new OcspResp(inp);
-            inp.Close();
-            response.Close();
+            string contentEncoding;
+            byte[] responseBytes = iTextSharp.text.SafeUrlFetcher.Post(new Uri(url), "application/ocsp-request", "application/ocsp-response", array, null, out contentEncoding);
+            OcspResp ocspResponse = new OcspResp(new MemoryStream(responseBytes));
 
             if (ocspResponse.Status != 0)
                 throw new IOException("Invalid status: " + ocspResponse.Status);

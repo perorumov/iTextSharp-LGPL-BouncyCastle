@@ -680,7 +680,7 @@ namespace iTextSharp.text.pdf.codec.wmf
         Stream imgIn;
         byte[] data = null;
         if (image.OriginalData == null) {
-            imgIn = WebRequest.Create(image.Url).GetResponse().GetResponseStream();
+            imgIn = iTextSharp.text.SafeUrlFetcher.GetStream(image.Url);
             MemoryStream outp = new MemoryStream();
             int b = 0;
             while ((b = imgIn.ReadByte()) != -1)

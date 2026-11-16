@@ -177,8 +177,7 @@ namespace iTextSharp.text.pdf {
                     }
                     else {
                         if (filePath.StartsWith("file:/") || filePath.StartsWith("http://") || filePath.StartsWith("https://")) {
-                            WebRequest w = WebRequest.Create(filePath);
-                            inp = w.GetResponse().GetResponseStream();
+                            inp = iTextSharp.text.SafeUrlFetcher.GetStream(new Uri(filePath));
                         }
                         else {
                             inp = BaseFont.GetResourceStream(filePath);

@@ -165,8 +165,7 @@ namespace iTextSharp.text {
             try {
                 string errorID;
                 if (rawData == null){
-                    WebRequest w = WebRequest.Create(url);
-                    inp = w.GetResponse().GetResponseStream();
+                    inp = SafeUrlFetcher.GetStream(url);
                     errorID = url.ToString();
                 }
                 else{

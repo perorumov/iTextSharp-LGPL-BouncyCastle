@@ -194,7 +194,7 @@ namespace iTextSharp.text.rtf.graphic {
                 } else {                
                     byte[] iod = image.OriginalData;
                     if (iod == null) {
-                        Stream imageIn = WebRequest.Create(image.Url).GetResponse().GetResponseStream();
+                        Stream imageIn = iTextSharp.text.SafeUrlFetcher.GetStream(image.Url);
                         if (imageType == Image.ORIGINAL_WMF) { //remove the placeable header first
                             for (int k = 0; k < WMF_PLACEABLE_HEADER_SIZE; k++) {
                                 if (imageIn.ReadByte() < 0) throw (new IOException("while removing wmf placeable header"));

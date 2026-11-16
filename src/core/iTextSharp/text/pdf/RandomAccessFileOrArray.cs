@@ -76,7 +76,7 @@ namespace iTextSharp.text.pdf {
         public RandomAccessFileOrArray(String filename, bool forceRead) {
             if (!File.Exists(filename)) {
                 if (filename.StartsWith("file:/") || filename.StartsWith("http://") || filename.StartsWith("https://")) {
-                    Stream isp = WebRequest.Create(new Uri(filename)).GetResponse().GetResponseStream();
+                    Stream isp = iTextSharp.text.SafeUrlFetcher.GetStream(new Uri(filename));
                     try {
                         this.arrayIn = InputStreamToArray(isp);
                         return;
@@ -114,7 +114,7 @@ namespace iTextSharp.text.pdf {
         }
 
         public RandomAccessFileOrArray(Uri url) {
-            Stream isp = WebRequest.Create(url).GetResponse().GetResponseStream();
+            Stream isp = iTextSharp.text.SafeUrlFetcher.GetStream(url);
             try {
                 this.arrayIn = InputStreamToArray(isp);
             }

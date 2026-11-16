@@ -347,8 +347,7 @@ namespace iTextSharp.text {
         public static Image GetInstance(Uri url) {
             Stream istr = null;
             try {
-                WebRequest w = WebRequest.Create(url);
-                istr = w.GetResponse().GetResponseStream();
+                istr = SafeUrlFetcher.GetStream(url);
                 int c1 = istr.ReadByte();
                 int c2 = istr.ReadByte();
                 int c3 = istr.ReadByte();
@@ -500,6 +499,17 @@ namespace iTextSharp.text {
                         ra.Close();
                 }
 
+            }
+            if (imgb.Length >= 8 && c1 == 0x97 && c2 == 'J' && c3 == 'B' && c4 == '2' &&
+                    imgb[4] == '\r' && imgb[5] == '\n' && imgb[6] == 0x1a && imgb[7] == '\n') {
+                RandomAccessFileOrArray ra = null;
+                try {
+                    ra = new RandomAccessFileOrArray(imgb);
+                    return JBIG2Image.GetJbig2Image(ra, 1);
+                } finally {
+                    if (ra != null)
+                        ra.Close();
+                }
             }
             throw new IOException("The byte array is not a recognized imageformat.");
         }
@@ -691,6 +701,8 @@ namespace iTextSharp.text {
         /// <param name="filename">a filename</param>
         /// <returns>an object of type Gif, Jpeg or Png</returns>
         public static Image GetInstance(string filename) {
+            if (File.Exists(filename))
+                return GetInstance(File.ReadAllBytes(filename));
             return GetInstance(Utilities.ToURL(filename));
         }
     
